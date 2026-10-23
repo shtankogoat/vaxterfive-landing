@@ -191,7 +191,6 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px}
 .ico img{width:20px;height:20px;border-radius:5px}
 .track{align-items:center}
 .track img{height:44px;width:auto;filter:grayscale(1);opacity:.6;transition:.3s}
-.track img:hover{filter:none;opacity:1}
 .card .ph img,.collage .ph img{object-position:center top}
 .track img{height:52px;opacity:.75}
 
@@ -275,7 +274,6 @@ html,body{overflow-x:clip}
 .topbar-link:hover{opacity:.75}
 .logo-img{transition:opacity .3s}
 .logo:hover .logo-img{opacity:.75}
-.trust:hover .track{animation-play-state:paused}
 .final{transition:border-color .35s,box-shadow .35s}
 .final:hover{border-color:var(--accent);box-shadow:0 20px 50px -30px rgba(31,75,255,.5)}
 @media (hover:none){.ph:hover img,.card:hover .ph img{transform:none}}
@@ -304,3 +302,127 @@ html,body{overflow-x:clip}
 .fphotos .ph:first-child{grid-column:auto;aspect-ratio:4/3}
 @media (max-width:640px){.fphotos .ph:first-child{aspect-ratio:4/3}}
 .merch-text .ph img{object-position:center}
+
+/* hero: photos beside text, advantages below, no empty space */
+.hero{padding:48px 0 56px}
+.hero-grid{align-items:stretch;row-gap:28px}
+.hero .lead{margin:24px 0 32px}
+.collage{height:100%;min-height:440px;grid-template-rows:1fr 1fr}
+.hero-grid>.adv{grid-column:1/-1;grid-template-columns:repeat(4,1fr);margin:0}
+@media (max-width:1000px){
+  .collage{height:auto;min-height:0;grid-template-rows:300px 240px}
+  .hero-grid>.adv{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .hero{padding:28px 0 40px}
+  .collage{grid-template-rows:200px 160px}
+  .hero-grid>.adv{grid-template-columns:1fr}
+}
+@media (max-width:640px){.badge{font-size:11px;padding:6px 10px;top:10px;left:10px;white-space:nowrap}}
+
+/* section head: description aligned to the heading baseline */
+.sec-head{align-items:last baseline}
+.sec-head h2.sec{margin-bottom:0}
+.sec-head p{margin:0}
+@media (max-width:640px){.sec-head{flex-direction:column;align-items:flex-start;gap:14px}}
+
+/* production block: tall photo beside text, stats full width below */
+.factory-grid{align-items:stretch;row-gap:8px}
+.factory p{max-width:none}
+.fphotos{height:100%}
+.fphotos .ph:first-child{aspect-ratio:auto;height:100%;min-height:420px}
+.factory-grid>.stats{grid-column:1/-1;justify-content:space-between;margin-top:24px}
+@media (max-width:1000px){.fphotos .ph:first-child{height:auto;aspect-ratio:4/3;min-height:0}}
+
+/* merch: text left, photo right, benefits row below */
+.merch-grid{grid-template-columns:1fr 1fr;gap:56px;align-items:stretch}
+.merch-text h2.sec{margin-bottom:24px}
+.merch-text p{font-size:17px;color:var(--ink2);margin:0 0 16px}
+.merch-photo{height:100%;min-height:380px}
+.merch-photo img{object-position:center}
+.merch .benefits{grid-template-columns:repeat(4,1fr);margin-top:48px}
+@media (max-width:1000px){
+  .merch-grid{grid-template-columns:1fr;gap:32px}
+  .merch-photo{min-height:0;aspect-ratio:16/10}
+  .merch .benefits{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){.merch .benefits{grid-template-columns:1fr}}
+.merch-photo{height:auto;min-height:0;aspect-ratio:4/3;align-self:center}
+.merch-photo img{object-position:left center}
+/* merch photo: show whole picture (native 2:1), equal rounded corners */
+.merch-grid{grid-template-columns:1fr 1.25fr}
+.merch-photo{aspect-ratio:2/1;border-radius:var(--radius);overflow:hidden;isolation:isolate}
+.merch-photo img{object-fit:cover;object-position:center;border-radius:var(--radius)}
+.merch-photo:hover img{transform:none}
+@media (max-width:1000px){.merch-grid{grid-template-columns:1fr}.merch-photo{aspect-ratio:2/1}}
+.merch-photo{aspect-ratio:1171/800}
+@media (max-width:1000px){.merch-photo{aspect-ratio:1171/800}}
+.merch-photo{aspect-ratio:1171/622}
+@media (max-width:1000px){.merch-photo{aspect-ratio:1171/622}}
+.merch-photo{aspect-ratio:1/1}
+@media (max-width:1000px){.merch-photo{aspect-ratio:1/1}}
+/* merch: photo column height = text column height */
+.merch-grid{grid-template-columns:1.6fr 1fr;align-items:stretch}
+.merch-photo{aspect-ratio:auto;height:100%;min-height:0}
+.merch-photo img{object-position:center top}
+@media (max-width:1000px){.merch-grid{grid-template-columns:1fr}.merch-photo{aspect-ratio:1/1;height:auto}}
+.merch-photo{position:relative}
+.merch-photo img{position:absolute;inset:0;width:100%;height:100%}
+@media (max-width:1000px){.merch-photo img{position:absolute}}
+/* merch: wide photo, height = text column (cropped vertically) */
+.merch-grid{grid-template-columns:1fr 1.25fr;align-items:stretch}
+.merch-photo{aspect-ratio:auto;height:100%;min-height:0;position:relative}
+.merch-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+@media (max-width:1000px){.merch-grid{grid-template-columns:1fr}.merch-photo{aspect-ratio:1254/900;height:auto}}
+.merch-photo img{object-position:center top}
+@media (max-width:1000px){.merch-photo{aspect-ratio:1254/935}}
+
+/* specs v2: photo header cards with tag-chips */
+.specs{gap:20px}
+.spec{padding:0;overflow:hidden;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line)}
+.spec-top{position:relative;height:180px;overflow:hidden;background:var(--ink)}
+.spec-top img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.spec-top::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,13,18,.05) 30%,rgba(11,13,18,.82))}
+.spec-top h3{position:absolute;left:22px;right:22px;bottom:18px;margin:0;color:#fff;font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.1;z-index:1}
+.spec-count{position:absolute;top:16px;left:16px;z-index:1;background:rgba(255,255,255,.92);color:var(--ink);font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px;letter-spacing:.01em}
+.spec ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:20px 20px 24px}
+.spec li{border:0;padding:8px 13px;border-radius:999px;background:var(--bg2);color:var(--ink);font-size:14px;line-height:1.3;transition:background .3s,color .3s,transform .3s var(--ease)}
+.spec li:hover{padding:8px 13px;background:var(--accent);color:#fff;transform:translateY(-2px)}
+.spec:hover{transform:translateY(-6px);border-color:transparent;box-shadow:0 26px 50px -28px rgba(11,13,18,.45)}
+.spec:hover .spec-top img{transform:scale(1.08)}
+@media (max-width:640px){.spec-top{height:150px}.spec-top h3{font-size:22px}}
+.spec li,.spec li:hover{border-radius:12px}
+
+/* specs v3: colored headers, no photos, calm */
+.spec-top{height:auto;min-height:150px;padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.spec-top::after{display:none}
+.spec-top h3,.spec-count{position:static}
+.spec-count{align-self:flex-start;background:rgba(255,255,255,.22);color:#fff}
+.spec:nth-child(1) .spec-top{background:#1f4bff}
+.spec:nth-child(2) .spec-top{background:#e6330e}
+.spec:nth-child(3) .spec-top{background:#13a564}
+.spec:nth-child(4) .spec-top{background:#7c3aed}
+.spec:nth-child(1) li{background:#eef2ff}
+.spec:nth-child(2) li{background:#fdeee9}
+.spec:nth-child(3) li{background:#e9f7f0}
+.spec:nth-child(4) li{background:#f3edfd}
+.spec,.spec:hover{transform:none;box-shadow:none;border-color:var(--line);transition:none}
+.spec li,.spec li:hover{transform:none;color:var(--ink);transition:none}
+.spec:nth-child(1) li:hover{background:#eef2ff}.spec:nth-child(2) li:hover{background:#fdeee9}
+.spec:nth-child(3) li:hover{background:#e9f7f0}.spec:nth-child(4) li:hover{background:#f3edfd}
+
+/* specs v4: white cards, blue as the only highlight */
+.spec .spec-top,.spec:nth-child(n) .spec-top{background:#fff;min-height:0;padding:24px 22px 0;gap:14px}
+.spec-top h3{color:var(--ink)}
+.spec-count{background:#eef2ff;color:var(--accent)}
+.spec:nth-child(n) li,.spec:nth-child(n) li:hover{background:#eef2ff;color:var(--ink)}
+.spec{border-top:4px solid var(--accent)}
+.spec:hover{border-color:var(--line);border-top-color:var(--accent)}
+
+/* swatches: even row, no jumping on hover */
+.swatches{align-items:flex-start;scrollbar-width:thin;scrollbar-color:#c9cdd5 transparent}
+.swatches::-webkit-scrollbar{height:6px}
+.swatches::-webkit-scrollbar-thumb{background:#c9cdd5;border-radius:3px}
+.sw .chip,.sw:hover .chip{transform:none;box-shadow:none;transition:opacity .25s}
+.sw:hover .chip{opacity:.85}
+.sw b{min-height:2.6em;line-height:1.3}
