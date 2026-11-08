@@ -1,0 +1,35 @@
+{% extends "base.html" %}{% block title %}Каталог{% endblock %}
+{% block body %}
+<div class="head">
+  <div><span class="mono">Каталог</span><h1>Категории</h1></div>
+  <a class="btn ghost sm" href="/catalog/" target="_blank" rel="noopener">Открыть каталог на сайте ↗</a>
+</div>
+<p class="hint">Разделы каталога на сайте. Порядок здесь — порядок на сайте; изменения появляются на сайте сразу после сохранения.</p>
+<div class="list">
+  {% for c in data.categories %}
+  <div class="row">
+    <a class="row-main" href="{{ url_for('cat', slug=c.slug) }}">
+      <span class="thumb">{% if c['items'] and c['items'][0].img %}<img src="/img/products/{{ c['items'][0].img[0] }}" alt="" loading="lazy">{% endif %}</span>
+      <span class="row-t"><b>{{ c.name }}</b><small class="mono">/{{ c.slug }}/ · {{ c['items']|length }} поз.</small></span>
+    </a>
+    <div class="row-act">
+      {% for d, s, dis in [('up','↑', loop.first), ('down','↓', loop.last)] %}
+      <form method="post" action="{{ url_for('cat_move', slug=c.slug) }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="dir" value="{{ d }}"><button class="ibtn" title="{{ 'Выше' if d=='up' else 'Ниже' }}" {{ 'disabled' if dis }}>{{ s }}</button></form>
+      {% endfor %}
+      <form method="post" action="{{ url_for('cat_delete', slug=c.slug) }}" data-confirm="Удалить категорию «{{ c.name }}» вместе со всеми товарами ({{ c['items']|length }})?"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="ibtn danger" title="Удалить">✕</button></form>
+    </div>
+  </div>
+  {% else %}<p class="empty">Категорий пока нет.</p>{% endfor %}
+</div>
+
+<details class="panel" {{ 'open' if not data.categories }}>
+  <summary>+ Новая категория</summary>
+  <form method="post" action="{{ url_for('cat_new') }}" class="grid2">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <label>Название<input name="name" required maxlength="120" data-slug-src></label>
+    <label>Адрес (slug)<input name="slug" required maxlength="60" pattern="[a-z0-9]+(-[a-z0-9]+)*" data-slug placeholder="naprimer-tak"><small>Латиница, цифры, дефис. Будет /catalog/<i>slug</i>/</small></label>
+    <label class="full">Описание раздела<textarea name="lead_text" rows="2" maxlength="500"></textarea></label>
+    <div class="full"><button class="btn">Создать</button></div>
+  </form>
+</details>
+{% endblock %}

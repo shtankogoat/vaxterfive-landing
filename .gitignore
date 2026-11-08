@@ -1,2 +1,7 @@
 Thumbs.db
 .DS_Store
+data.md
+admin-app/screenshots/
+*.before-fullwidth.css
+css/style.fullwidth-v1.css
+*.tgz

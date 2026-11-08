@@ -1,6 +1,6 @@
 // Образцы материалов и фурнитуры для ленты в блоке «Особые требования»
 // Фото: Wikimedia Commons (лицензии CC BY / CC BY-SA / CC0, авторы указаны в README.md)
-const img = name => `url(img/materials/${name}.jpg) center/cover no-repeat`;
+const img = name => `url(/img/materials/${name}.webp) center/cover no-repeat`;
 window.SWATCHES = [
  {t:'Ткань', n:'Трикотаж джерси', d:'Мягкое дышащее полотно для футболок, игровой и тренировочной формы.', c:img('jersey')},
  {t:'Ткань', n:'Сетка спортивная', d:'Вентилируемая сетка для вставок и форм с повышенной воздухопроницаемостью.', c:img('mesh')},

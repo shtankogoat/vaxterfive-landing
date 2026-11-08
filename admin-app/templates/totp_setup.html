@@ -1,0 +1,26 @@
+{% extends "base.html" %}{% block title %}Настройка 2FA{% endblock %}
+{% block body %}
+<div class="login">
+  <div class="login-card wide-card">
+    <span class="logo"><a href="/" title="На сайт vaxterfive.ru"><img class="logo-img" src="/img/logo.png" alt="Vaxter Five"></a><small class="logo-sub">Админ-панель</small></span>
+    <h1>Подключите защиту входа</h1>
+    <p class="hint lead">Двухфакторная защита обязательна. Это делается один раз:</p>
+    <ol class="steps">
+      <li>Установите на телефон <b>Яндекс Ключ</b> или <b>Google Authenticator</b>.</li>
+      <li>В приложении нажмите «+» → «Сканировать QR-код» и наведите камеру на код ниже.</li>
+      <li>Введите 6-значный код, который покажет приложение.</li>
+    </ol>
+    <div class="qr"><img src="{{ qr }}" alt="QR-код для приложения-аутентификатора" width="220" height="220"></div>
+    <details class="manual"><summary>Не получается отсканировать? Ввести ключ вручную</summary>
+      <p class="hint">Ключ (тип — по времени, 6 цифр, 30 сек):</p>
+      <code class="secret">{{ secret }}</code>
+    </details>
+    <form method="post" autocomplete="off">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <label>Код из приложения<input name="code" class="code" inputmode="numeric" pattern="[0-9 ]{6,7}" maxlength="7" autocomplete="one-time-code" required placeholder="000000"></label>
+      <button class="btn wide">Подключить и войти</button>
+    </form>
+    <p class="hint">Никому не показывайте этот QR-код и ключ.</p>
+  </div>
+</div>
+{% endblock %}

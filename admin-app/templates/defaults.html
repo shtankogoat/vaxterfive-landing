@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}По умолчанию{% endblock %}
+{% block body %}
+<div class="head"><div><span class="mono">Настройки</span><h1>Значения по умолчанию</h1></div></div>
+<p class="hint">Показываются в характеристиках каждого товара, у которого соответствующее поле не заполнено.</p>
+<form method="post" class="card-f narrow">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  {% for k in ['fabric','print','sizes','min','lead'] %}
+  <label>{{ LABELS[k] }}<input name="{{ k }}" value="{{ d.get(k, '') }}" maxlength="300"></label>
+  {% endfor %}
+  <div class="formact"><button class="btn">Сохранить</button></div>
+</form>
+{% endblock %}

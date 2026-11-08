@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block title %}Версии{% endblock %}
+{% block body %}
+<div class="head"><div><span class="mono">История</span><h1>Версии каталога</h1></div></div>
+<p class="hint">Перед каждой публикацией сохраняется копия предыдущего каталога (хранятся последние 50). «Вернуть» — сразу публикует выбранную версию; текущая при этом тоже попадает в историю.</p>
+<div class="table">
+  <div class="tr th"><span>Сохранено</span><span>Кем / почему</span><span>Состав</span><span></span></div>
+  {% for b in backups %}
+  <div class="tr">
+    <span><b>{{ b.ts.strftime('%d.%m.%Y %H:%M:%S') }}</b></span>
+    <span>{{ b.user or '—' }} <small>· {{ b.reason or '' }}</small></span>
+    <span>{{ b.cats }} кат. · {{ b['items'] }} тов.</span>
+    <span class="ver-act"><form method="post" action="{{ url_for('version_restore') }}" data-confirm="Вернуть каталог к версии от {{ b.ts.strftime('%d.%m.%Y %H:%M') }} и опубликовать?"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="name" value="{{ b.name }}"><button class="btn ghost sm">Вернуть</button></form></span>
+  </div>
+  {% else %}<p class="empty">Пока нет сохранённых версий — они появятся после первой публикации.</p>{% endfor %}
+</div>
+{% endblock %}

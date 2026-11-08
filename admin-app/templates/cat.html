@@ -1,0 +1,34 @@
+{% extends "base.html" %}{% block title %}{{ c.name }}{% endblock %}
+{% block body %}
+<div class="cat-top"><nav class="crumbs mono"><a href="{{ url_for('home') }}">Каталог</a><i>/</i><span>{{ c.name }}</span><button type="button" class="pencil-s" data-open="cat-settings" title="Настройки категории" aria-label="Настройки категории"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></nav><a class="btn ghost sm" href="/catalog/{{ c.slug }}/" target="_blank" rel="noopener">На сайте ↗</a></div>
+<div class="head" id="items"><div><h1>Товары</h1></div></div>
+<p class="hint">{{ c.lead_text or 'Товары раздела — в том же порядке, что и на сайте.' }}</p>
+<div class="list">
+  {% for it in c['items'] %}
+  <div class="row">
+    <a class="row-main" href="{{ url_for('item', slug=c.slug, islug=it.slug) }}">
+      <span class="thumb">{% if it.img %}<img src="/img/products/{{ it.img[0] }}" alt="" loading="lazy">{% else %}<em>нет фото</em>{% endif %}</span>
+      <span class="row-t"><b>{{ it.name }}</b><small>{{ it.short|truncate(90) }}</small></span>
+    </a>
+    <div class="row-act">
+      {% for d, s, dis in [('up','↑', loop.first), ('down','↓', loop.last)] %}
+      <form method="post" action="{{ url_for('item_move', slug=c.slug, islug=it.slug) }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="dir" value="{{ d }}"><button class="ibtn" title="{{ 'Выше' if d=='up' else 'Ниже' }}" {{ 'disabled' if dis }}>{{ s }}</button></form>
+      {% endfor %}
+      <form method="post" action="{{ url_for('item_delete', slug=c.slug, islug=it.slug) }}" data-confirm="Удалить товар «{{ it.name }}»?"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="ibtn danger" title="Удалить">✕</button></form>
+    </div>
+  </div>
+  {% else %}<p class="empty">В категории пока нет товаров — добавьте хотя бы один, иначе её нельзя будет опубликовать.</p>{% endfor %}
+</div>
+<a class="btn" href="{{ url_for('item_new', slug=c.slug) }}">+ Добавить товар</a>
+
+<dialog class="dlg" id="cat-settings" aria-labelledby="cs-t">
+  <div class="dlg-head"><h2 id="cs-t">Настройки категории</h2><button type="button" class="ibtn" data-close-dlg aria-label="Закрыть">✕</button></div>
+  <form method="post" class="grid2">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <label>Название<input name="name" value="{{ c.name }}" required maxlength="120"></label>
+    <label>Адрес (slug)<input name="slug" value="{{ c.slug }}" required maxlength="60" pattern="[a-z0-9]+(-[a-z0-9]+)*"><small>Смена адреса меняет ссылки на страницы раздела.</small></label>
+    <label class="full">Описание раздела<textarea name="lead_text" rows="3" maxlength="500">{{ c.lead_text }}</textarea></label>
+    <div class="full dlg-act"><button type="button" class="btn ghost" data-close-dlg>Отмена</button><button class="btn">Сохранить</button></div>
+  </form>
+</dialog>
+{% endblock %}

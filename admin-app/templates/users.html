@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% block title %}Пользователи{% endblock %}
+{% block body %}
+<div class="head"><div><span class="mono">Доступ</span><h1>Пользователи</h1></div></div>
+<div class="list">
+  {% for n, u in users.items() %}
+  <div class="row">
+    <div class="row-main"><span class="ava">{{ (u.display or n)[:1]|upper }}</span><span class="row-t"><b>{{ u.display or n }}</b><small class="mono">{{ n }} · {{ 'администратор' if u.role=='admin' else 'менеджер' }} · 2FA {{ 'вкл' if u.totp_enc else 'не настроена' }}</small></span></div>
+    <div class="row-act">
+      {% if n != me.name %}
+      {% if u.totp_enc %}<form method="post" action="{{ url_for('user_reset_2fa') }}" data-confirm="Сбросить 2FA пользователя {{ n }}? Он настроит её заново при следующем входе."><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="username" value="{{ n }}"><button class="btn ghost sm" title="Сбросить 2FA (потерян телефон)">Сбросить 2FA</button></form>{% endif %}
+      <form method="post" action="{{ url_for('user_delete') }}" data-confirm="Удалить пользователя {{ n }}?"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="username" value="{{ n }}"><button class="ibtn danger" title="Удалить">✕</button></form>
+      {% else %}<span class="tag">это вы</span>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<details class="panel" open>
+  <summary>+ Добавить пользователя</summary>
+  <form method="post" action="{{ url_for('user_new') }}" class="grid2" autocomplete="off">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <label>Логин<input name="username" required maxlength="32" pattern="[a-z0-9_.\-]{2,32}" autocapitalize="none" placeholder="dima"></label>
+    <label>Имя<input name="display" maxlength="60" placeholder="Менеджер"></label>
+    <label>Пароль<input name="password" type="password" required minlength="16" autocomplete="new-password"><small>Не короче 16 символов, буквы + цифры/символы.</small></label>
+    <label>Роль<select name="role"><option value="manager">Менеджер — каталог</option><option value="admin">Администратор — каталог + пользователи</option></select></label>
+    <div class="full"><button class="btn">Добавить</button></div>
+  </form>
+</details>
+{% endblock %}

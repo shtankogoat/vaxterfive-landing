@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% block title %}{{ title }}{% endblock %}
+{% block body %}
+<div class="errpage">
+  <div class="err-card">
+    {% if not me %}<span class="logo"><a href="/" title="На сайт vaxterfive.ru"><img class="logo-img" src="/img/logo.png" alt="Vaxter Five"></a><small class="logo-sub">Админ-панель</small></span>{% endif %}
+    <div class="err-code" aria-hidden="true">{{ code }}</div>
+    <h1>{{ title }}</h1>
+    <p class="err-msg">{{ msg }}</p>
+    {% if retry %}
+    <div class="err-timer" data-countdown="{{ retry }}">
+      <span class="mono">Повторить можно через</span>
+      <b><span data-mm>{{ '%02d' % (retry // 60) }}</span>:<span data-ss>{{ '%02d' % (retry % 60) }}</span></b>
+    </div>
+    {% endif %}
+    <div class="formact err-act">
+      {% if me %}<a class="btn" href="{{ url_for('home') }}">На главную панели</a>
+      {% else %}<a class="btn" href="{{ url_for('login') }}" {% if retry %}data-wait{% endif %}>На главную панели</a>{% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

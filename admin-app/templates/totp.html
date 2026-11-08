@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block title %}Код подтверждения{% endblock %}
+{% block body %}
+<div class="login">
+  <div class="login-card">
+    <span class="logo"><a href="/" title="На сайт vaxterfive.ru"><img class="logo-img" src="/img/logo.png" alt="Vaxter Five"></a><small class="logo-sub">Админ-панель</small></span>
+    <h1>Код из приложения</h1>
+    <p class="hint lead">Откройте <b>Яндекс Ключ</b> или <b>Google Authenticator</b> и введите 6-значный код для «Vaxter Five admin».</p>
+    <form method="post" autocomplete="off">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <label>Код<input name="code" class="code" inputmode="numeric" pattern="[0-9 ]{6,7}" maxlength="7" autocomplete="one-time-code" required autofocus placeholder="000000"></label>
+      <button class="btn wide">Подтвердить</button>
+    </form>
+    <p class="hint">Потеряли телефон — попросите администратора сбросить 2FA.</p>
+    <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="linkbtn">← Войти под другим логином</button></form>
+  </div>
+</div>
+{% endblock %}

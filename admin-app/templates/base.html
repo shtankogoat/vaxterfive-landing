@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>{% block title %}Админка{% endblock %} — Vaxter Five</title>
+<link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}?v=26">
+<script src="{{ url_for('static', filename='admin.js') }}?v=11" defer></script>
+</head>
+<body>
+{% if me %}
+<header class="top">
+  <div class="wrap top-in">
+    <span class="logo"><a href="{{ site_url }}" title="На сайт vaxterfive.ru"><img class="logo-img" src="/img/logo.png" alt="Vaxter Five"></a><a class="logo-sub" href="{{ url_for('home') }}">Админ-панель</a></span>
+    <input type="checkbox" id="nav-t" class="nav-t" aria-label="Меню"><label for="nav-t" class="burger"><i></i><i></i><i></i></label>
+    <nav class="nav">
+      <a href="{{ url_for('home') }}" class="{{ 'on' if request.endpoint in ('home','cat','item','item_new') }}">Каталог</a>
+      <a href="{{ url_for('defaults') }}" class="{{ 'on' if request.endpoint=='defaults' }}">По умолчанию</a>
+      <a href="{{ url_for('versions') }}" class="{{ 'on' if request.endpoint=='versions' }}">Версии</a>
+      <a href="{{ url_for('leads_page') }}" class="{{ 'on' if request.endpoint=='leads_page' }}">Заявки</a>
+      <a href="{{ url_for('sessions_page') }}" class="{{ 'on' if request.endpoint=='sessions_page' }}">Сессии</a>
+      {% if me.role == 'admin' %}
+      <a href="{{ url_for('audit_page') }}" class="{{ 'on' if request.endpoint=='audit_page' }}">Журнал</a>
+      {% endif %}
+      <span class="nav-sep"></span>
+      <form method="post" action="{{ url_for('logout') }}" data-confirm="Вы точно хотите выйти?"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="linkbtn logout">Выйти</button></form>
+    </nav>
+  </div>
+</header>
+{% endif %}
+<main class="wrap main">
+  {% with msgs = get_flashed_messages(with_categories=true) %}{% if msgs %}
+  <div class="flashes">{% for cat, m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}</div>
+  {% endif %}{% endwith %}
+  {% block body %}{% endblock %}
+</main>
+</body>
+</html>

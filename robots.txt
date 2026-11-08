@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /catalog-src/
+Disallow: /admin-app/
+Disallow: /errors/
+Disallow: /google-script/
+
+Sitemap: https://vaxterfive.ru/sitemap.xml

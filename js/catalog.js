@@ -1,0 +1,18 @@
+// gallery thumbs
+const gmain = document.getElementById('gmain');
+document.querySelectorAll('.gallery-thumbs button').forEach(b => b.onclick = () => {
+  gmain.src = b.dataset.img;
+  document.querySelectorAll('.gallery-thumbs button').forEach(x => x.classList.toggle('on', x === b));
+});
+
+// copy link
+const toast = document.getElementById('toast');
+const say = t => { toast.textContent = t; toast.classList.add('show'); clearTimeout(say.t); say.t = setTimeout(() => toast.classList.remove('show'), 2200); };
+const copyUrl = async () => {
+  const url = location.origin + location.pathname;
+  try { await navigator.clipboard.writeText(url); }
+  catch (e) { const i = document.createElement('input'); i.value = url; document.body.append(i); i.select(); document.execCommand('copy'); i.remove(); }
+};
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => { await copyUrl(); say('Ссылка скопирована'); });
+// «Написать менеджеру»: copy link, then contact.js opens the messenger window with the green note
+document.querySelectorAll('[data-send]').forEach(b => b.addEventListener('click', () => { copyUrl(); }));

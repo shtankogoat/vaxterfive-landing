@@ -1,0 +1,30 @@
+[Unit]
+Description=Vaxter Five catalog admin (gunicorn)
+After=network.target
+
+[Service]
+User=vfadmin
+Group=vfadmin
+WorkingDirectory=/opt/vaxterfive-admin
+EnvironmentFile=/etc/vaxterfive-admin.env
+ExecStart=/opt/vaxterfive-admin/venv/bin/gunicorn --workers 1 --threads 4 --bind 127.0.0.1:5600 --timeout 180 --access-logfile - app:app
+Restart=on-failure
+UMask=0022
+# hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+# писать можно только сюда (плюс права ФС, см. README)
+ReadWritePaths=/var/www/vaxterfive/catalog-src /var/www/vaxterfive/catalog /var/www/vaxterfive/img/products /var/www/vaxterfive/sitemap.xml /var/lib/vaxterfive-admin
+
+[Install]
+WantedBy=multi-user.target

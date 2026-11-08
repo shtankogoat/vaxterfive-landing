@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block title %}Сессии{% endblock %}
+{% block body %}
+<div class="head"><div><span class="mono">Безопасность</span><h1>Сессии</h1></div>
+  {% if rows|selectattr('can')|list %}<form method="post" action="{{ url_for('sessions_revoke') }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="sid" value="newer"><button class="btn danger" type="submit">Завершить все новее текущей</button></form>{% endif %}
+</div>
+<p class="hint">Активные входы в админку. Завершить можно только сессии, открытые <b>позже</b> текущей — новая сессия не может выкинуть более старую.</p>
+<div class="table sess">
+  <div class="tr th"><span>Устройство</span><span>IP</span><span>Вход</span><span>Активность</span><span></span></div>
+  {% for r in rows %}
+  <div class="tr{{ ' me' if r.me }}">
+    <span><b>{{ r.ua_short or 'Неизвестно' }}</b>{% if r.me %} <span class="pill">Эта сессия</span>{% endif %}</span>
+    <span class="mono">{{ r.ip }}</span>
+    <span>{{ r.created_s }}</span>
+    <span>{{ r.last_s }}</span>
+    <span class="act">{% if r.can %}<form method="post" action="{{ url_for('sessions_revoke') }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="sid" value="{{ r.sid }}"><button class="linkbtn danger" type="submit">Завершить</button></form>{% elif not r.me %}<small title="Сессия старше текущей">старше</small>{% endif %}</span>
+  </div>
+  {% else %}<p class="empty">Активных сессий нет.</p>{% endfor %}
+</div>
+{% endblock %}

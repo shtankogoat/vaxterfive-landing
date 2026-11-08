@@ -1,0 +1,39 @@
+{% extends "base.html" %}{% block title %}Заявки{% endblock %}
+{% block body %}
+<div class="head"><div><span class="mono">С сайта</span><h1>Заявки</h1></div>
+  {% if not amo %}<span class="badge-st warn"><b class="dot"></b>AmoCRM не настроен</span>{% endif %}</div>
+<p class="hint">Последние 50 заявок с сайта. Каждая сразу уходит в AmoCRM — там вся история.</p>
+<div class="table leads-t">
+  <div class="tr th"><span>Клиент</span><span>Что нужно</span><span>Получена</span><span>Статус</span></div>
+  {% for l in leads %}{% set d = l.data %}
+  <div class="tr">
+    <span class="lc">
+      <b>{{ d.name }}</b>
+      {% if d.contact.startswith("@") %}<a class="mono" href="https://t.me/{{ d.contact[1:] }}" target="_blank" rel="noopener">{{ d.contact }}</a>{% else %}<a class="mono" href="tel:{{ d.contact }}">{{ d.contact }}</a>{% endif %}
+      {% if d.via %}<small>Связь: {{ d.via }}</small>{% endif %}
+    </span>
+    <span class="lw">
+      <span class="lead-what">{{ d.what }}</span>
+      <dl class="lead-dl">
+        {% if d.qty %}<div><dt>Кол-во</dt><dd>{{ d.qty }}</dd></div>{% endif %}
+        {% if d.date %}<div><dt>Срок</dt><dd>{{ d.date }}</dd></div>{% endif %}
+        {% if d.design %}<div><dt>Дизайн</dt><dd>{{ d.design }}</dd></div>{% endif %}
+        {% if d.mat %}<div><dt>Материал</dt><dd>{{ d.mat }}</dd></div>{% endif %}
+        <div><dt>IP</dt><dd>{{ l.ip }}</dd></div>
+      </dl>
+      {% if l.status == 'error' %}<span class="lead-err">{{ l.error }}</span>{% endif %}
+      {% if l.file or d.kit %}<span class="formact">
+        {% if l.file %}<a class="btn ghost sm" href="{{ url_for('lead_file', lid=l.id) }}">⬇ {{ l.file_name }}</a>{% endif %}
+        {% if d.kit %}<a class="btn ghost sm" href="{{ d.kit }}" target="_blank" rel="noopener noreferrer">Конструктор ↗</a>{% endif %}
+      </span>{% endif %}
+    </span>
+    <span class="mono">{{ l.when }}</span>
+    <span class="lst">{% if l.status == 'sent' %}<span class="badge-st ok"><b class="dot ok"></b>в AMO #{{ l.amo_id }}</span>
+      {% elif l.status == 'error' %}<span class="badge-st err" title="{{ l.error }}"><b class="dot"></b>ошибка</span>
+      {% elif l.status == 'pending' %}<span class="badge-st warn"><b class="dot"></b>отправляется</span>
+      {% else %}<span class="badge-st muted"><b class="dot"></b>не отправлена</span>{% endif %}
+      <form class="lead-del" method="post" action="{{ url_for('lead_delete', lid=l.id) }}" data-confirm="Вы точно уверены, что хотите удалить заявку от {{ d.name }} ({{ l.when }})? Её нельзя будет восстановить. В AmoCRM сделка останется."><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="ibtn danger" title="Удалить заявку" aria-label="Удалить заявку">✕</button></form></span>
+  </div>
+  {% else %}<p class="empty">Заявок пока нет.</p>{% endfor %}
+</div>
+{% endblock %}

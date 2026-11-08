@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Журнал{% endblock %}
+{% block body %}
+<div class="head"><div><span class="mono">Безопасность</span><h1>Журнал действий</h1></div></div>
+<p class="hint">Входы, правки, публикации и завершённые сессии — кто, когда и с какого IP.</p>
+<div class="table audit">
+  <div class="tr th"><span>Когда</span><span>Кто</span><span>Действие</span><span>Подробности</span></div>
+  {% for r in rows %}
+  <div class="tr"><span class="mono">{{ r.ts|replace('T',' ') }}</span><span>{{ r.user }} <small>{{ r.ip }}</small></span><span><b>{{ r.action }}</b></span><span><small>{{ r.detail }}</small></span></div>
+  {% else %}<p class="empty">Записей нет.</p>{% endfor %}
+</div>
+{% endblock %}
