@@ -142,7 +142,7 @@ def plain_404():
 
 
 def dev_site_path(path):
-    return DEV and re.match(r"^/(img|css|js|catalog)(/|$)", path)
+    return DEV and re.match(r"^/(img|css|js|catalog|articles)(/|$)", path)
 
 
 @app.before_request
@@ -878,7 +878,7 @@ def api_lead():
     S.audit("сайт", "Новая заявка", f"{lid[:8]} {data['name']} / {data['contact']}", ip())
     if LD.amo_configured():
         LD.send_async(lid, lead_file_url(lid))
-    return {"ok": True}
+    return {"ok": True, "code": lid[:8]}
 
 
 @app.get(P + "/leads")
@@ -925,6 +925,11 @@ def lead_delete(lid):
     log("Удалена заявка", lid[:8])
     flash("Заявка удалена из админки (в AmoCRM она осталась).", "ok")
     return redirect(url_for("leads_page"))
+
+
+# ---------- статьи (блог) — отдельный модуль ----------
+import articles_routes  # noqa: E402
+articles_routes.register(app, {"P": P, "login_required": login_required, "save_and_publish": save_and_publish, "log": log})
 
 
 ERRORS = {
@@ -976,6 +981,11 @@ if DEV:
     @app.get("/catalog/<path:p>")
     def dev_catalog(p=""):
         return send_from_directory(S.SITE_ROOT / "catalog", (p.rstrip("/") + "/index.html").lstrip("/"))
+
+    @app.get("/articles/")
+    @app.get("/articles/<path:p>")
+    def dev_articles(p=""):
+        return send_from_directory(S.SITE_ROOT / "articles", (p.rstrip("/") + "/index.html").lstrip("/"))
 
 
 @app.get(P)

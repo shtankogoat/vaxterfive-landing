@@ -8,100 +8,1329 @@
   },
   "categories": [
     {
-      "slug": "tshirts", "name": "Футболки",
+      "slug": "tshirts",
+      "name": "Футболки",
       "lead_text": "Базовые и тренировочные футболки из хлопка и функциональных тканей — под ваш логотип и цвета.",
       "items": [
-        {"slug": "training-tee", "name": "Тренировочная футболка", "img": ["p1.jpg", "p5.jpg"],
-         "short": "Лёгкая дышащая футболка для тренировок и командных занятий.",
-         "fabric": "Полиэстер с функцией отвода влаги, 140–160 г/м²"},
-        {"slug": "cotton-tee", "name": "Хлопковая футболка", "img": ["p16.jpg", "p15.jpg"],
-         "short": "Классическая футболка из плотного хлопка — для мерча, команд и мероприятий.",
-         "fabric": "Кулирная гладь 100% хлопок, 180–220 г/м²"},
-        {"slug": "kids-tee", "name": "Детская футболка", "img": ["p12.jpg", "p11.jpg"],
-         "short": "Футболка для детских секций и школ — мягкая, прочная, хорошо держит нанесение.",
-         "fabric": "Полиэстер или хлопок на выбор", "sizes": "Детские 110–164"}
+        {
+          "slug": "training-tee",
+          "name": "Тренировочная футболка",
+          "img": [
+            "p1.jpg",
+            "p5.jpg"
+          ],
+          "short": "Лёгкая дышащая футболка для тренировок и командных занятий.",
+          "fabric": "Полиэстер с функцией отвода влаги, 140–160 г/м²"
+        },
+        {
+          "slug": "cotton-tee",
+          "name": "Хлопковая футболка",
+          "img": [
+            "p16.jpg",
+            "p15.jpg"
+          ],
+          "short": "Классическая футболка из плотного хлопка — для мерча, команд и мероприятий.",
+          "fabric": "Кулирная гладь 100% хлопок, 180–220 г/м²"
+        },
+        {
+          "slug": "kids-tee",
+          "name": "Детская футболка",
+          "img": [
+            "p12.jpg",
+            "p11.jpg"
+          ],
+          "short": "Футболка для детских секций и школ — мягкая, прочная, хорошо держит нанесение.",
+          "fabric": "Полиэстер или хлопок на выбор",
+          "sizes": "Детские 110–164"
+        },
+        {
+          "slug": "kuba-tee",
+          "name": "Футболка Kuba",
+          "img": [
+            "vf-kuba-tee-1.jpg",
+            "vf-kuba-tee-2.jpg",
+            "vf-kuba-tee-3.jpg",
+            "vf-kuba-tee-4.jpg",
+            "vf-kuba-tee-5.jpg",
+            "vf-kuba-tee-6.jpg",
+            "vf-kuba-tee-7.jpg"
+          ],
+          "short": "Чёрная футболка с контрастной окантовкой и вышитым логотипом на груди.",
+          "fabric": "Кулирная гладь 100% хлопок, 180–200 г/м²",
+          "print": "Вышивка, шелкография, DTF"
+        },
+        {
+          "slug": "white-tee",
+          "name": "Белая футболка",
+          "img": [
+            "vf-white-tee-1.jpg",
+            "vf-white-tee-2.jpg",
+            "vf-white-tee-3.jpg",
+            "vf-white-tee-4.jpg"
+          ],
+          "short": "Базовая белая футболка прямого кроя — основа для мерча и корпоративной формы.",
+          "fabric": "Кулирная гладь 100% хлопок, 180–200 г/м²"
+        },
+        {
+          "slug": "oversize-tee",
+          "name": "Футболка оверсайз",
+          "img": [
+            "vf-oversize-tee-1.jpg",
+            "vf-oversize-tee-2.jpg",
+            "vf-oversize-tee-3.jpg"
+          ],
+          "short": "Свободная футболка со спущенным плечом — для мерча и повседневной носки.",
+          "fabric": "Кулирная гладь 100% хлопок, 200–220 г/м²"
+        }
       ]
     },
     {
-      "slug": "team", "name": "Командная форма",
+      "slug": "team",
+      "name": "Командная форма",
       "lead_text": "Комплекты «футболка + шорты» для футбола, волейбола, баскетбола и других видов спорта — с номерами и фамилиями.",
       "items": [
-        {"slug": "football-kit", "name": "Футбольная форма", "img": ["team.jpg", "running.jpg"],
-         "short": "Игровой комплект в цветах клуба: номера, фамилии, логотипы спонсоров.",
-         "fabric": "Полиэстер с микроперфорацией"},
-        {"slug": "sublimation-kit", "name": "Форма с полной сублимацией", "img": ["hero-design.jpg", "corporate.jpg"],
-         "short": "Любой дизайн по всей площади изделия — цвета не выцветают и не трескаются.",
-         "fabric": "Полиэстер 100%, 140–160 г/м²", "print": "Полноцветная сублимация"},
-        {"slug": "kids-kit", "name": "Детская игровая форма", "img": ["p21.jpg", "p11.jpg"],
-         "short": "Комплекты для детских команд и спортшкол — от 1 комплекта.",
-         "fabric": "Полиэстер с функцией отвода влаги", "sizes": "Детские 110–164"}
+        {
+          "slug": "football-kit",
+          "name": "Футбольная форма",
+          "img": [
+            "team.jpg",
+            "running.jpg"
+          ],
+          "short": "Игровой комплект в цветах клуба: номера, фамилии, логотипы спонсоров.",
+          "fabric": "Полиэстер с микроперфорацией"
+        },
+        {
+          "slug": "sublimation-kit",
+          "name": "Форма с полной сублимацией",
+          "img": [
+            "hero-design.jpg",
+            "corporate.jpg"
+          ],
+          "short": "Любой дизайн по всей площади изделия — цвета не выцветают и не трескаются.",
+          "fabric": "Полиэстер 100%, 140–160 г/м²",
+          "print": "Полноцветная сублимация"
+        },
+        {
+          "slug": "kids-kit",
+          "name": "Детская игровая форма",
+          "img": [
+            "p21.jpg",
+            "p11.jpg"
+          ],
+          "short": "Комплекты для детских команд и спортшкол — от 1 комплекта.",
+          "fabric": "Полиэстер с функцией отвода влаги",
+          "sizes": "Детские 110–164"
+        },
+        {
+          "slug": "bold-kit",
+          "name": "Футбольная форма Bold",
+          "img": [
+            "vf-bold-kit-1.jpg",
+            "vf-bold-kit-2.jpg",
+            "vf-bold-kit-3.jpg",
+            "vf-bold-kit-4.jpg",
+            "vf-bold-kit-5.jpg",
+            "vf-bold-kit-6.jpg",
+            "vf-bold-kit-7.jpg",
+            "vf-bold-kit-8.jpg",
+            "vf-bold-kit-9.jpg"
+          ],
+          "short": "Игровой комплект с градиентным сублимационным рисунком — шесть базовых цветов или ваши.",
+          "fabric": "Полиэстер с микроперфорацией, 140–160 г/м²",
+          "print": "Полноцветная сублимация"
+        },
+        {
+          "slug": "spike-kit",
+          "name": "Футбольная форма Spike",
+          "img": [
+            "vf-spike-kit-1.jpg",
+            "vf-spike-kit-2.jpg",
+            "vf-spike-kit-3.jpg",
+            "vf-spike-kit-4.jpg",
+            "vf-spike-kit-5.jpg",
+            "vf-spike-kit-6.jpg",
+            "vf-spike-kit-7.jpg",
+            "vf-spike-kit-8.jpg",
+            "vf-spike-kit-9.jpg"
+          ],
+          "short": "Комплект «футболка + шорты» с геометричным принтом на груди — с номерами и фамилиями.",
+          "fabric": "Полиэстер с микроперфорацией, 140–160 г/м²",
+          "print": "Полноцветная сублимация"
+        },
+        {
+          "slug": "vaxter-kit",
+          "name": "Игровая форма Vaxter",
+          "img": [
+            "vf-vaxter-kit-1.jpg",
+            "vf-vaxter-kit-2.jpg",
+            "vf-vaxter-kit-3.jpg",
+            "vf-vaxter-kit-4.jpg",
+            "vf-vaxter-kit-5.jpg",
+            "vf-vaxter-kit-6.jpg",
+            "vf-vaxter-kit-7.jpg",
+            "vf-vaxter-kit-8.jpg",
+            "vf-vaxter-kit-9.jpg"
+          ],
+          "short": "Фирменная модель с диагональной полосой — классика командной формы в цветах клуба.",
+          "fabric": "Полиэстер с микроперфорацией, 140–160 г/м²",
+          "print": "Полноцветная сублимация"
+        },
+        {
+          "slug": "diamond-kit",
+          "name": "Форма Diamond",
+          "img": [
+            "vf-diamond-kit-1.jpg",
+            "vf-diamond-kit-2.jpg",
+            "vf-diamond-kit-3.jpg",
+            "vf-diamond-kit-4.jpg",
+            "vf-diamond-kit-5.jpg",
+            "vf-diamond-kit-6.jpg",
+            "vf-diamond-kit-7.jpg",
+            "vf-diamond-kit-8.jpg",
+            "vf-diamond-kit-9.jpg"
+          ],
+          "short": "Яркий комплект с мозаичным принтом из ромбов — для команд, которые хотят выделяться.",
+          "fabric": "Полиэстер 100%, 140–160 г/м²",
+          "print": "Полноцветная сублимация"
+        },
+        {
+          "slug": "country-kit",
+          "name": "Форма Country",
+          "img": [
+            "vf-country-kit-1.jpg",
+            "vf-country-kit-2.jpg",
+            "vf-country-kit-3.jpg",
+            "vf-country-kit-4.jpg",
+            "vf-country-kit-5.jpg",
+            "vf-country-kit-6.jpg",
+            "vf-country-kit-7.jpg",
+            "vf-country-kit-8.jpg"
+          ],
+          "short": "Комплект в цветах триколора — для сборных, турниров и патриотичных мероприятий.",
+          "fabric": "Полиэстер с микроперфорацией",
+          "print": "Полноцветная сублимация"
+        }
       ]
     },
     {
-      "slug": "hoodies", "name": "Худи и свитшоты",
+      "slug": "hoodies",
+      "name": "Худи и свитшоты",
       "lead_text": "Тёплый мерч для команд, брендов и мероприятий — худи, свитшоты, толстовки на молнии.",
       "items": [
-        {"slug": "hoodie", "name": "Худи", "img": ["merch-hoodie.jpg"],
-         "short": "Худи с капюшоном и карманом-кенгуру — главный предмет командного мерча.",
-         "fabric": "Футер трёхнитка с начёсом, 280–320 г/м²", "print": "Вышивка, шелкография, DTF"},
-        {"slug": "oversize-hoodie", "name": "Худи оверсайз", "img": ["merch-women.jpg"],
-         "short": "Свободный крой для коллекций мерча и брендов одежды.",
-         "fabric": "Футер с начёсом, 320 г/м²", "print": "Вышивка, шелкография, DTF"}
+        {
+          "slug": "hoodie",
+          "name": "Худи",
+          "img": [
+            "merch-hoodie.jpg"
+          ],
+          "short": "Худи с капюшоном и карманом-кенгуру — главный предмет командного мерча.",
+          "fabric": "Футер трёхнитка с начёсом, 280–320 г/м²",
+          "print": "Вышивка, шелкография, DTF"
+        },
+        {
+          "slug": "oversize-hoodie",
+          "name": "Худи оверсайз",
+          "img": [
+            "merch-women.jpg"
+          ],
+          "short": "Свободный крой для коллекций мерча и брендов одежды.",
+          "fabric": "Футер с начёсом, 320 г/м²",
+          "print": "Вышивка, шелкография, DTF"
+        },
+        {
+          "slug": "zip-hoodie",
+          "name": "Толстовка на молнии",
+          "img": [
+            "vf-zip-hoodie-1.jpg",
+            "vf-zip-hoodie-2.jpg",
+            "vf-zip-hoodie-3.jpg",
+            "vf-zip-hoodie-4.jpg",
+            "vf-zip-hoodie-5.jpg",
+            "vf-zip-hoodie-6.jpg",
+            "vf-zip-hoodie-7.jpg",
+            "vf-zip-hoodie-8.jpg"
+          ],
+          "short": "Худи и толстовка на молнии из футера — с вышивкой или принтом вашей команды.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "casual-zip-hoodie",
+          "name": "Худи кэжуал на молнии",
+          "img": [
+            "vf-casual-zip-hoodie-1.jpg",
+            "vf-casual-zip-hoodie-2.jpg",
+            "vf-casual-zip-hoodie-3.jpg",
+            "vf-casual-zip-hoodie-4.jpg",
+            "vf-casual-zip-hoodie-5.jpg",
+            "vf-casual-zip-hoodie-6.jpg",
+            "vf-casual-zip-hoodie-7.jpg",
+            "vf-casual-zip-hoodie-8.jpg",
+            "vf-casual-zip-hoodie-9.jpg"
+          ],
+          "short": "Графитовое худи на молнии из фактурного трикотажа — для повседневной носки и мерча.",
+          "fabric": "Трикотаж с начёсом"
+        }
       ]
     },
     {
-      "slug": "jackets", "name": "Куртки и ветровки",
+      "slug": "jackets",
+      "name": "Куртки и ветровки",
       "lead_text": "Верхняя одежда для команд, тренеров и персонала — от лёгких ветровок до утеплённых парок.",
       "items": [
-        {"slug": "windbreaker", "name": "Ветровка", "img": ["staff.jpg"],
-         "short": "Лёгкая ветрозащитная куртка с капюшоном — для тренеров, судей и персонала.",
-         "fabric": "Мембранная ткань, водоотталкивающая пропитка", "print": "Вышивка, термоперенос"},
-        {"slug": "parka", "name": "Утеплённая парка", "img": ["outerwear.jpg"],
-         "short": "Длинная утеплённая куртка для запасных, тренеров и болельщиков.",
-         "fabric": "Таслан / дюспо, утеплитель", "print": "Вышивка, термоперенос, нашивки"}
+        {
+          "slug": "windbreaker",
+          "name": "Ветровка",
+          "img": [
+            "staff.jpg"
+          ],
+          "short": "Лёгкая ветрозащитная куртка с капюшоном — для тренеров, судей и персонала.",
+          "fabric": "Мембранная ткань, водоотталкивающая пропитка",
+          "print": "Вышивка, термоперенос"
+        },
+        {
+          "slug": "parka",
+          "name": "Утеплённая парка",
+          "img": [
+            "outerwear.jpg"
+          ],
+          "short": "Длинная утеплённая куртка для запасных, тренеров и болельщиков.",
+          "fabric": "Таслан / дюспо, утеплитель",
+          "print": "Вышивка, термоперенос, нашивки"
+        },
+        {
+          "slug": "puffer-jacket",
+          "name": "Стёганая куртка",
+          "img": [
+            "vf-puffer-jacket-1.jpg",
+            "vf-puffer-jacket-2.jpg",
+            "vf-puffer-jacket-3.jpg",
+            "vf-puffer-jacket-4.jpg",
+            "vf-puffer-jacket-5.jpg",
+            "vf-puffer-jacket-6.jpg",
+            "vf-puffer-jacket-7.jpg",
+            "vf-puffer-jacket-8.jpg",
+            "vf-puffer-jacket-9.jpg"
+          ],
+          "short": "Утеплённая куртка с глянцевой поверхностью — для болельщиков, тренеров и межсезонья.",
+          "fabric": "Плащевка, синтепон"
+        },
+        {
+          "slug": "insulated-vest",
+          "name": "Утеплённый жилет",
+          "img": [
+            "vf-insulated-vest-1.jpg",
+            "vf-insulated-vest-2.jpg",
+            "vf-insulated-vest-3.jpg",
+            "vf-insulated-vest-4.jpg",
+            "vf-insulated-vest-5.jpg",
+            "vf-insulated-vest-6.jpg",
+            "vf-insulated-vest-7.jpg"
+          ],
+          "short": "Стёганый жилет с капюшоном и цветными вставками на кокетке.",
+          "fabric": "Плащевка, синтепон"
+        }
       ]
     },
     {
-      "slug": "shorts", "name": "Шорты",
+      "slug": "shorts",
+      "name": "Шорты",
       "lead_text": "Игровые и тренировочные шорты в цвет формы.",
       "items": [
-        {"slug": "game-shorts", "name": "Игровые шорты", "img": ["p22.jpg"],
-         "short": "Лёгкие шорты на резинке со шнурком — в любой цвет и с номером.",
-         "fabric": "Полиэстер с функцией отвода влаги"}
+        {
+          "slug": "game-shorts",
+          "name": "Игровые шорты",
+          "img": [
+            "p22.jpg"
+          ],
+          "short": "Лёгкие шорты на резинке со шнурком — в любой цвет и с номером.",
+          "fabric": "Полиэстер с функцией отвода влаги"
+        }
       ]
     },
     {
-      "slug": "pants", "name": "Брюки и легинсы",
+      "slug": "pants",
+      "name": "Брюки и легинсы",
       "lead_text": "Тренировочные брюки, легинсы и компрессионная одежда.",
       "items": [
-        {"slug": "leggings", "name": "Спортивные легинсы", "img": ["training.jpg"],
-         "short": "Плотные эластичные легинсы с высокой посадкой — для фитнеса и зала.",
-         "fabric": "Бифлекс / супплекс, 220–260 г/м²"}
+        {
+          "slug": "leggings",
+          "name": "Спортивные легинсы",
+          "img": [
+            "training.jpg"
+          ],
+          "short": "Плотные эластичные легинсы с высокой посадкой — для фитнеса и зала.",
+          "fabric": "Бифлекс / супплекс, 220–260 г/м²"
+        },
+        {
+          "slug": "check-pants-grey",
+          "name": "Брюки в клетку серые",
+          "img": [
+            "vf-check-pants-grey-1.jpg",
+            "vf-check-pants-grey-2.jpg",
+            "vf-check-pants-grey-3.jpg",
+            "vf-check-pants-grey-4.jpg",
+            "vf-check-pants-grey-5.jpg",
+            "vf-check-pants-grey-6.jpg"
+          ],
+          "short": "Укороченные брюки в клетку на резинке — кэжуал для повседневной носки.",
+          "fabric": "Костюмная ткань с эластаном"
+        },
+        {
+          "slug": "check-pants-navy",
+          "name": "Брюки в клетку синие",
+          "img": [
+            "vf-check-pants-navy-1.jpg",
+            "vf-check-pants-navy-2.jpg",
+            "vf-check-pants-navy-3.jpg",
+            "vf-check-pants-navy-4.jpg",
+            "vf-check-pants-navy-5.jpg",
+            "vf-check-pants-navy-6.jpg",
+            "vf-check-pants-navy-7.jpg",
+            "vf-check-pants-navy-8.jpg",
+            "vf-check-pants-navy-9.jpg"
+          ],
+          "short": "Укороченные брюки в клетку тёмно-синего цвета на резинке.",
+          "fabric": "Костюмная ткань с эластаном"
+        }
       ]
     },
     {
-      "slug": "martial-arts", "name": "Единоборства",
+      "slug": "martial-arts",
+      "name": "Единоборства",
       "lead_text": "Экипировка для федераций и клубов единоборств: рашгарды, кимоно, шорты.",
       "items": [
-        {"slug": "rashguard", "name": "Рашгард", "img": ["prototype.jpg"],
-         "short": "Компрессионный рашгард с полной сублимацией — дизайн клуба на всём изделии.",
-         "fabric": "Бифлекс, плоские швы", "print": "Полноцветная сублимация"},
-        {"slug": "sambo-kit", "name": "Форма для самбо", "img": ["p7.jpg"],
-         "short": "Куртка и шорты для самбо в цветах федерации или клуба.",
-         "fabric": "Плотный хлопок / смесовая ткань", "print": "Вышивка, термоперенос"},
-        {"slug": "american-football", "name": "Джерси для американского футбола", "img": ["amfootball.jpg"],
-         "short": "Игровое джерси с номерами и камуфляжным или любым другим принтом.",
-         "fabric": "Полиэстер с сеткой", "print": "Полноцветная сублимация"}
+        {
+          "slug": "rashguard",
+          "name": "Рашгард",
+          "img": [
+            "prototype.jpg"
+          ],
+          "short": "Компрессионный рашгард с полной сублимацией — дизайн клуба на всём изделии.",
+          "fabric": "Бифлекс, плоские швы",
+          "print": "Полноцветная сублимация"
+        },
+        {
+          "slug": "sambo-kit",
+          "name": "Форма для самбо",
+          "img": [
+            "p7.jpg"
+          ],
+          "short": "Куртка и шорты для самбо в цветах федерации или клуба.",
+          "fabric": "Плотный хлопок / смесовая ткань",
+          "print": "Вышивка, термоперенос"
+        },
+        {
+          "slug": "american-football",
+          "name": "Джерси для американского футбола",
+          "img": [
+            "amfootball.jpg"
+          ],
+          "short": "Игровое джерси с номерами и камуфляжным или любым другим принтом.",
+          "fabric": "Полиэстер с сеткой",
+          "print": "Полноцветная сублимация"
+        }
       ]
     },
     {
-      "slug": "balls", "name": "Мячи",
+      "slug": "balls",
+      "name": "Мячи",
       "lead_text": "Футбольные мячи с логотипом — для клубов, турниров и подарков.",
       "items": [
-        {"slug": "football-ball", "name": "Футбольный мяч с логотипом", "img": ["detail-ball.jpg", "p17.jpg"],
-         "short": "Мяч в фирменных цветах с вашим логотипом.",
-         "fabric": "Покрышка ПУ / ПВХ", "sizes": "Размеры 3, 4, 5", "min": "по согласованию", "print": "Полноцветная печать"}
+        {
+          "slug": "football-ball",
+          "name": "Футбольный мяч с логотипом",
+          "img": [
+            "detail-ball.jpg",
+            "p17.jpg"
+          ],
+          "short": "Мяч в фирменных цветах с вашим логотипом.",
+          "fabric": "Покрышка ПУ / ПВХ",
+          "sizes": "Размеры 3, 4, 5",
+          "min": "по согласованию",
+          "print": "Полноцветная печать"
+        },
+        {
+          "slug": "match-ball",
+          "name": "Мяч футбольный матчевый",
+          "img": [
+            "vf-match-ball-1.jpg",
+            "vf-match-ball-2.jpg",
+            "vf-match-ball-3.jpg",
+            "vf-match-ball-4.jpg",
+            "vf-match-ball-5.jpg"
+          ],
+          "short": "Мяч с ярким дизайном и логотипом — для турниров и подарков партнёрам.",
+          "fabric": "Покрышка ПУ",
+          "sizes": "Размеры 4, 5",
+          "min": "по согласованию",
+          "print": "Полноцветная печать"
+        }
       ]
+    },
+    {
+      "slug": "suits",
+      "name": "Спортивные костюмы",
+      "lead_text": "Костюмы из футера и полиэстера: худи, олимпийки, брюки и комплекты-тройки — под ваш логотип.",
+      "items": [
+        {
+          "slug": "nitro-suit",
+          "name": "Костюм Nitro",
+          "img": [
+            "vf-nitro-suit-1.jpg",
+            "vf-nitro-suit-2.jpg",
+            "vf-nitro-suit-3.jpg",
+            "vf-nitro-suit-4.jpg",
+            "vf-nitro-suit-5.jpg",
+            "vf-nitro-suit-6.jpg",
+            "vf-nitro-suit-7.jpg",
+            "vf-nitro-suit-8.jpg",
+            "vf-nitro-suit-9.jpg"
+          ],
+          "short": "Олимпийка на молнии с контрастными вставками и брюки — для команд и тренеров.",
+          "fabric": "Полиэстер, спортивный трикотаж"
+        },
+        {
+          "slug": "mario-suit",
+          "name": "Костюм Mario",
+          "img": [
+            "vf-mario-suit-1.jpg",
+            "vf-mario-suit-2.jpg",
+            "vf-mario-suit-3.jpg",
+            "vf-mario-suit-4.jpg",
+            "vf-mario-suit-5.jpg",
+            "vf-mario-suit-6.jpg",
+            "vf-mario-suit-7.jpg",
+            "vf-mario-suit-8.jpg",
+            "vf-mario-suit-9.jpg"
+          ],
+          "short": "Костюм из футера: худи на молнии с триколорными вставками и брюки с лампасами.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "roky-suit",
+          "name": "Костюм Roky",
+          "img": [
+            "vf-roky-suit-1.jpg",
+            "vf-roky-suit-2.jpg",
+            "vf-roky-suit-3.jpg",
+            "vf-roky-suit-4.jpg",
+            "vf-roky-suit-5.jpg",
+            "vf-roky-suit-6.jpg",
+            "vf-roky-suit-7.jpg",
+            "vf-roky-suit-8.jpg",
+            "vf-roky-suit-9.jpg"
+          ],
+          "short": "Чёрный костюм с капюшоном и вставками в цветах флага — вышивка герба на груди.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²",
+          "print": "Вышивка, шелкография, DTF"
+        },
+        {
+          "slug": "shoulder-suit",
+          "name": "Костюм Shoulder",
+          "img": [
+            "vf-shoulder-suit-1.jpg",
+            "vf-shoulder-suit-2.jpg",
+            "vf-shoulder-suit-3.jpg",
+            "vf-shoulder-suit-4.jpg",
+            "vf-shoulder-suit-5.jpg",
+            "vf-shoulder-suit-6.jpg",
+            "vf-shoulder-suit-7.jpg",
+            "vf-shoulder-suit-8.jpg",
+            "vf-shoulder-suit-9.jpg"
+          ],
+          "short": "Тёмно-синий костюм из футера с цветными вставками на плечах.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "half-suit",
+          "name": "Костюм Half",
+          "img": [
+            "vf-half-suit-1.jpg",
+            "vf-half-suit-2.jpg",
+            "vf-half-suit-3.jpg",
+            "vf-half-suit-4.jpg",
+            "vf-half-suit-5.jpg",
+            "vf-half-suit-6.jpg",
+            "vf-half-suit-7.jpg",
+            "vf-half-suit-8.jpg",
+            "vf-half-suit-9.jpg"
+          ],
+          "short": "Костюм из футера с асимметричным цветным блоком на куртке и брюках.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "tricolor-suit",
+          "name": "Костюм с триколором",
+          "img": [
+            "vf-tricolor-suit-1.jpg",
+            "vf-tricolor-suit-2.jpg",
+            "vf-tricolor-suit-3.jpg",
+            "vf-tricolor-suit-4.jpg",
+            "vf-tricolor-suit-5.jpg",
+            "vf-tricolor-suit-6.jpg",
+            "vf-tricolor-suit-7.jpg",
+            "vf-tricolor-suit-8.jpg",
+            "vf-tricolor-suit-9.jpg"
+          ],
+          "short": "Худи на молнии с блоками «белый — синий — красный» и прямые брюки.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "poly-suit",
+          "name": "Костюм из полиэстера",
+          "img": [
+            "vf-poly-suit-1.jpg",
+            "vf-poly-suit-2.jpg",
+            "vf-poly-suit-3.jpg",
+            "vf-poly-suit-4.jpg",
+            "vf-poly-suit-5.jpg",
+            "vf-poly-suit-6.jpg",
+            "vf-poly-suit-7.jpg",
+            "vf-poly-suit-8.jpg",
+            "vf-poly-suit-9.jpg"
+          ],
+          "short": "Тренировочный костюм из плотного полиэстера с цветными вставками — для клубов и сборных.",
+          "fabric": "Полиэстер, спортивный трикотаж"
+        },
+        {
+          "slug": "troika-burgundy",
+          "name": "Костюм-тройка бордовый",
+          "img": [
+            "vf-troika-burgundy-1.jpg",
+            "vf-troika-burgundy-2.jpg",
+            "vf-troika-burgundy-3.jpg",
+            "vf-troika-burgundy-4.jpg",
+            "vf-troika-burgundy-5.jpg",
+            "vf-troika-burgundy-6.jpg",
+            "vf-troika-burgundy-7.jpg",
+            "vf-troika-burgundy-8.jpg",
+            "vf-troika-burgundy-9.jpg"
+          ],
+          "short": "Женский комплект из футера: свитшот, брюки и шорты.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "troika-pink",
+          "name": "Костюм-тройка пудровый",
+          "img": [
+            "vf-troika-pink-1.jpg",
+            "vf-troika-pink-2.jpg",
+            "vf-troika-pink-3.jpg",
+            "vf-troika-pink-4.jpg",
+            "vf-troika-pink-5.jpg",
+            "vf-troika-pink-6.jpg",
+            "vf-troika-pink-7.jpg",
+            "vf-troika-pink-8.jpg",
+            "vf-troika-pink-9.jpg"
+          ],
+          "short": "Женский комплект из футера нежного оттенка: свитшот, брюки и шорты.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "troika-fuchsia",
+          "name": "Костюм-тройка малиновый",
+          "img": [
+            "vf-troika-fuchsia-1.jpg",
+            "vf-troika-fuchsia-2.jpg",
+            "vf-troika-fuchsia-3.jpg",
+            "vf-troika-fuchsia-4.jpg"
+          ],
+          "short": "Яркий женский комплект из футера: свитшот, брюки и шорты.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "troika-navy",
+          "name": "Костюм-тройка тёмно-синий",
+          "img": [
+            "vf-troika-navy-1.jpg",
+            "vf-troika-navy-2.jpg",
+            "vf-troika-navy-3.jpg",
+            "vf-troika-navy-4.jpg",
+            "vf-troika-navy-5.jpg",
+            "vf-troika-navy-6.jpg",
+            "vf-troika-navy-7.jpg",
+            "vf-troika-navy-8.jpg",
+            "vf-troika-navy-9.jpg"
+          ],
+          "short": "Женский комплект из футера: свитшот, брюки и шорты.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "troika-violet",
+          "name": "Костюм-тройка фиолетовый",
+          "img": [
+            "vf-troika-violet-1.jpg",
+            "vf-troika-violet-2.jpg",
+            "vf-troika-violet-3.jpg",
+            "vf-troika-violet-4.jpg",
+            "vf-troika-violet-5.jpg",
+            "vf-troika-violet-6.jpg",
+            "vf-troika-violet-7.jpg",
+            "vf-troika-violet-8.jpg",
+            "vf-troika-violet-9.jpg"
+          ],
+          "short": "Женский комплект из футера: свитшот, брюки и шорты.",
+          "fabric": "Футер 3-нитка с начёсом / петлёй, 280–320 г/м²"
+        },
+        {
+          "slug": "summer-turquoise",
+          "name": "Летний комплект бирюзовый",
+          "img": [
+            "vf-summer-turquoise-1.jpg",
+            "vf-summer-turquoise-2.jpg",
+            "vf-summer-turquoise-3.jpg",
+            "vf-summer-turquoise-4.jpg",
+            "vf-summer-turquoise-5.jpg"
+          ],
+          "short": "Свитшот и шорты из лёгкого футера — для тренировок и отдыха.",
+          "fabric": "Футер 2-нитка, 220–240 г/м²"
+        }
+      ]
+    },
+    {
+      "slug": "accessories",
+      "name": "Аксессуары",
+      "lead_text": "Гетры, шапки и другие аксессуары в цветах команды или бренда.",
+      "items": [
+        {
+          "slug": "football-socks",
+          "name": "Футбольные гетры",
+          "img": [
+            "vf-football-socks-1.jpg",
+            "vf-football-socks-2.jpg",
+            "vf-football-socks-3.jpg",
+            "vf-football-socks-4.jpg",
+            "vf-football-socks-5.jpg",
+            "vf-football-socks-6.jpg",
+            "vf-football-socks-7.jpg",
+            "vf-football-socks-8.jpg"
+          ],
+          "short": "Гетры в цветах команды — красные, чёрные, жёлтые и любые другие.",
+          "fabric": "Полиэстер, эластан",
+          "sizes": "Детские и взрослые",
+          "print": "Вязаный логотип, сублимация"
+        },
+        {
+          "slug": "beanie",
+          "name": "Шапка трикотажная",
+          "img": [
+            "vf-beanie-1.jpg",
+            "vf-beanie-2.jpg",
+            "vf-beanie-3.jpg",
+            "vf-beanie-4.jpg",
+            "vf-beanie-5.jpg",
+            "vf-beanie-6.jpg",
+            "vf-beanie-7.jpg",
+            "vf-beanie-8.jpg"
+          ],
+          "short": "Двухслойная шапка-бини — оливковая, хаки или в цветах вашего бренда.",
+          "fabric": "Трикотаж, акрил / хлопок",
+          "sizes": "Универсальный",
+          "print": "Вышивка, нашивка"
+        }
+      ]
+    }
+  ],
+  "articles": [
+    {
+      "id": "8c76a29aa8d707aa",
+      "title": "Как выбрать ткань для футбольной формы",
+      "slug": "kak-vybrat-tkan-dlya-futbolnoj-formy",
+      "date": "2026-11-08",
+      "status": "published",
+      "cover": "/img/articles/a-8c76a29aa8d707aa.webp",
+      "excerpt": "Тестовая статья: как выбрать ткань для футбольной формы. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Как выбрать ткань для футбольной формы». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-11-08",
+      "test": true
+    },
+    {
+      "id": "e0ac69f18e5d8c4a",
+      "title": "Сублимация или термоперенос: что лучше",
+      "slug": "sublimaciya-ili-termoperenos",
+      "date": "2026-10-30",
+      "status": "published",
+      "cover": "/img/articles/a-e0ac69f18e5d8c4a.webp",
+      "excerpt": "Тестовая статья: сублимация или термоперенос: что лучше. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Сублимация или термоперенос: что лучше». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-10-30",
+      "test": true
+    },
+    {
+      "id": "72d4b65c6f5ecfce",
+      "title": "Размерная сетка: как не ошибиться с заказом",
+      "slug": "razmernaya-setka-kak-ne-oshibitsya",
+      "date": "2026-10-21",
+      "status": "published",
+      "cover": "/img/articles/a-72d4b65c6f5ecfce.webp",
+      "excerpt": "Тестовая статья: размерная сетка: как не ошибиться с заказом. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размерная сетка: как не ошибиться с заказом». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-10-21",
+      "test": true
+    },
+    {
+      "id": "84599d59a590cdfb",
+      "title": "Сколько шьётся командная форма",
+      "slug": "skolko-shyotsya-komandnaya-forma",
+      "date": "2026-10-12",
+      "status": "published",
+      "cover": "/img/articles/a-84599d59a590cdfb.webp",
+      "excerpt": "Тестовая статья: сколько шьётся командная форма. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Сколько шьётся командная форма». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-10-12",
+      "test": true
+    },
+    {
+      "id": "a37c8c80cb786fd9",
+      "title": "Уход за спортивной формой: 7 правил",
+      "slug": "uhod-za-sportivnoj-formoj",
+      "date": "2026-10-03",
+      "status": "published",
+      "cover": "/img/articles/a-a37c8c80cb786fd9.webp",
+      "excerpt": "Тестовая статья: уход за спортивной формой: 7 правил. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за спортивной формой: 7 правил». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-10-03",
+      "test": true
+    },
+    {
+      "id": "c6756873e9a94806",
+      "title": "Форма для школы: что важно учесть",
+      "slug": "forma-dlya-shkoly",
+      "date": "2026-09-24",
+      "status": "published",
+      "cover": "/img/articles/a-c6756873e9a94806.webp",
+      "excerpt": "Тестовая статья: форма для школы: что важно учесть. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Форма для школы: что важно учесть». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-09-24",
+      "test": true
+    },
+    {
+      "id": "77d4ecdd6342fffa",
+      "title": "Как подготовить макет для печати",
+      "slug": "kak-podgotovit-maket",
+      "date": "2026-09-15",
+      "status": "published",
+      "cover": "/img/articles/a-77d4ecdd6342fffa.webp",
+      "excerpt": "Тестовая статья: как подготовить макет для печати. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Как подготовить макет для печати». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-09-15",
+      "test": true
+    },
+    {
+      "id": "4117867f07c4d3bf",
+      "title": "Хоккейные свитеры: материалы и крой",
+      "slug": "hokkejnye-svitery",
+      "date": "2026-09-06",
+      "status": "published",
+      "cover": "/img/articles/a-4117867f07c4d3bf.webp",
+      "excerpt": "Тестовая статья: хоккейные свитеры: материалы и крой. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Хоккейные свитеры: материалы и крой». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-09-06",
+      "test": true
+    },
+    {
+      "id": "40af7109f4559d61",
+      "title": "Корпоративный мерч для спортивных событий",
+      "slug": "korporativnyj-merch",
+      "date": "2026-08-28",
+      "status": "published",
+      "cover": "/img/articles/a-40af7109f4559d61.webp",
+      "excerpt": "Тестовая статья: корпоративный мерч для спортивных событий. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Корпоративный мерч для спортивных событий». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-08-28",
+      "test": true
+    },
+    {
+      "id": "a38df5c5bf6624aa",
+      "title": "Почему форма линяет и как этого избежать",
+      "slug": "pochemu-forma-linyaet",
+      "date": "2026-08-19",
+      "status": "published",
+      "cover": "/img/articles/a-a38df5c5bf6624aa.webp",
+      "excerpt": "Тестовая статья: почему форма линяет и как этого избежать. Разбираем по шагам на опыте нашего производства.",
+      "body": "<p>Тестовый текст статьи «Почему форма линяет и как этого избежать». Здесь будет материал от производства Vaxter Five.</p><h2>Главное</h2><p>Короткий абзац с полезными советами для заказчиков командной формы.</p><ul><li>Первый пункт</li><li>Второй пункт</li></ul>",
+      "created": "2026-08-19",
+      "test": true
+    },
+    {
+      "id": "e8183d9cb7458fa0",
+      "title": "Ткани для футбольной формы",
+      "slug": "tkani-dlya-futbolnoj-formy",
+      "date": "2026-08-10",
+      "status": "published",
+      "cover": "/img/articles/a-e8183d9cb7458fa0.webp",
+      "excerpt": "Тестовая статья: ткани для футбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для футбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-08-10",
+      "test": true
+    },
+    {
+      "id": "c04fdaa2a0d9b5fd",
+      "title": "Ткани для баскетбольной формы",
+      "slug": "tkani-dlya-basketbolnoj-formy",
+      "date": "2026-08-03",
+      "status": "published",
+      "cover": "/img/articles/a-c04fdaa2a0d9b5fd.webp",
+      "excerpt": "Тестовая статья: ткани для баскетбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для баскетбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-08-03",
+      "test": true
+    },
+    {
+      "id": "8521ce591b3b25f7",
+      "title": "Ткани для хоккейных свитеров",
+      "slug": "tkani-dlya-hokkejnyh-sviterov",
+      "date": "2026-07-27",
+      "status": "published",
+      "cover": "/img/articles/a-8521ce591b3b25f7.webp",
+      "excerpt": "Тестовая статья: ткани для хоккейных свитеров — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для хоккейных свитеров».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-07-27",
+      "test": true
+    },
+    {
+      "id": "c23b1e8370304e43",
+      "title": "Ткани для волейбольной формы",
+      "slug": "tkani-dlya-volejbolnoj-formy",
+      "date": "2026-07-20",
+      "status": "published",
+      "cover": "/img/articles/a-c23b1e8370304e43.webp",
+      "excerpt": "Тестовая статья: ткани для волейбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для волейбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-07-20",
+      "test": true
+    },
+    {
+      "id": "80a15605b2799ab8",
+      "title": "Ткани для беговых футболок",
+      "slug": "tkani-dlya-begovyh-futbolok",
+      "date": "2026-07-13",
+      "status": "published",
+      "cover": "/img/articles/a-80a15605b2799ab8.webp",
+      "excerpt": "Тестовая статья: ткани для беговых футболок — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для беговых футболок».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-07-13",
+      "test": true
+    },
+    {
+      "id": "6b3cf7499f6f1a62",
+      "title": "Ткани для спортивных костюмов",
+      "slug": "tkani-dlya-sportivnyh-kostyumov",
+      "date": "2026-07-06",
+      "status": "published",
+      "cover": "/img/articles/a-6b3cf7499f6f1a62.webp",
+      "excerpt": "Тестовая статья: ткани для спортивных костюмов — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для спортивных костюмов».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-07-06",
+      "test": true
+    },
+    {
+      "id": "6a678a93f7192914",
+      "title": "Ткани для худи с логотипом",
+      "slug": "tkani-dlya-hudi-s-logotipom",
+      "date": "2026-06-29",
+      "status": "published",
+      "cover": "/img/articles/a-6a678a93f7192914.webp",
+      "excerpt": "Тестовая статья: ткани для худи с логотипом — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для худи с логотипом».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-06-29",
+      "test": true
+    },
+    {
+      "id": "de5bc05b80c728ce",
+      "title": "Ткани для школьной формы",
+      "slug": "tkani-dlya-shkolnoj-formy",
+      "date": "2026-06-22",
+      "status": "published",
+      "cover": "/img/articles/a-de5bc05b80c728ce.webp",
+      "excerpt": "Тестовая статья: ткани для школьной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для школьной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-06-22",
+      "test": true
+    },
+    {
+      "id": "ab17826f02e47577",
+      "title": "Ткани для формы для единоборств",
+      "slug": "tkani-dlya-formy-dlya-edinoborstv",
+      "date": "2026-06-15",
+      "status": "published",
+      "cover": "/img/articles/a-ab17826f02e47577.webp",
+      "excerpt": "Тестовая статья: ткани для формы для единоборств — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для формы для единоборств».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-06-15",
+      "test": true
+    },
+    {
+      "id": "23c83ad250448993",
+      "title": "Ткани для корпоративного мерча",
+      "slug": "tkani-dlya-korporativnogo-mercha",
+      "date": "2026-06-08",
+      "status": "published",
+      "cover": "/img/articles/a-23c83ad250448993.webp",
+      "excerpt": "Тестовая статья: ткани для корпоративного мерча — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Ткани для корпоративного мерча».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-06-08",
+      "test": true
+    },
+    {
+      "id": "c4439d633108f518",
+      "title": "Нанесение на футбольной формы",
+      "slug": "nanesenie-na-futbolnoj-formy",
+      "date": "2026-06-01",
+      "status": "published",
+      "cover": "/img/articles/a-c4439d633108f518.webp",
+      "excerpt": "Тестовая статья: нанесение на футбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на футбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-06-01",
+      "test": true
+    },
+    {
+      "id": "24b844c21cda6b11",
+      "title": "Нанесение на баскетбольной формы",
+      "slug": "nanesenie-na-basketbolnoj-formy",
+      "date": "2026-05-25",
+      "status": "published",
+      "cover": "/img/articles/a-24b844c21cda6b11.webp",
+      "excerpt": "Тестовая статья: нанесение на баскетбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на баскетбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-05-25",
+      "test": true
+    },
+    {
+      "id": "4d9fffcc0dff8541",
+      "title": "Нанесение на хоккейных свитеров",
+      "slug": "nanesenie-na-hokkejnyh-sviterov",
+      "date": "2026-05-18",
+      "status": "published",
+      "cover": "/img/articles/a-4d9fffcc0dff8541.webp",
+      "excerpt": "Тестовая статья: нанесение на хоккейных свитеров — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на хоккейных свитеров».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-05-18",
+      "test": true
+    },
+    {
+      "id": "1e6a965b5592490f",
+      "title": "Нанесение на волейбольной формы",
+      "slug": "nanesenie-na-volejbolnoj-formy",
+      "date": "2026-05-11",
+      "status": "published",
+      "cover": "/img/articles/a-1e6a965b5592490f.webp",
+      "excerpt": "Тестовая статья: нанесение на волейбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на волейбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-05-11",
+      "test": true
+    },
+    {
+      "id": "a1376b942ae3db0f",
+      "title": "Нанесение на беговых футболок",
+      "slug": "nanesenie-na-begovyh-futbolok",
+      "date": "2026-05-04",
+      "status": "published",
+      "cover": "/img/articles/a-a1376b942ae3db0f.webp",
+      "excerpt": "Тестовая статья: нанесение на беговых футболок — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на беговых футболок».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-05-04",
+      "test": true
+    },
+    {
+      "id": "f161e2839b5e264c",
+      "title": "Нанесение на спортивных костюмов",
+      "slug": "nanesenie-na-sportivnyh-kostyumov",
+      "date": "2026-04-27",
+      "status": "published",
+      "cover": "/img/articles/a-f161e2839b5e264c.webp",
+      "excerpt": "Тестовая статья: нанесение на спортивных костюмов — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на спортивных костюмов».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-04-27",
+      "test": true
+    },
+    {
+      "id": "1b6a6ccbacbb1536",
+      "title": "Нанесение на худи с логотипом",
+      "slug": "nanesenie-na-hudi-s-logotipom",
+      "date": "2026-04-20",
+      "status": "published",
+      "cover": "/img/articles/a-1b6a6ccbacbb1536.webp",
+      "excerpt": "Тестовая статья: нанесение на худи с логотипом — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на худи с логотипом».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-04-20",
+      "test": true
+    },
+    {
+      "id": "55f73e2d5b9f8184",
+      "title": "Нанесение на школьной формы",
+      "slug": "nanesenie-na-shkolnoj-formy",
+      "date": "2026-04-13",
+      "status": "published",
+      "cover": "/img/articles/a-55f73e2d5b9f8184.webp",
+      "excerpt": "Тестовая статья: нанесение на школьной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на школьной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-04-13",
+      "test": true
+    },
+    {
+      "id": "d790548a8e2799bb",
+      "title": "Нанесение на формы для единоборств",
+      "slug": "nanesenie-na-formy-dlya-edinoborstv",
+      "date": "2026-04-06",
+      "status": "published",
+      "cover": "/img/articles/a-d790548a8e2799bb.webp",
+      "excerpt": "Тестовая статья: нанесение на формы для единоборств — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на формы для единоборств».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-04-06",
+      "test": true
+    },
+    {
+      "id": "32561cd945212a92",
+      "title": "Нанесение на корпоративного мерча",
+      "slug": "nanesenie-na-korporativnogo-mercha",
+      "date": "2026-03-30",
+      "status": "published",
+      "cover": "/img/articles/a-32561cd945212a92.webp",
+      "excerpt": "Тестовая статья: нанесение на корпоративного мерча — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Нанесение на корпоративного мерча».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-03-30",
+      "test": true
+    },
+    {
+      "id": "bd1aee0857aff03c",
+      "title": "Размеры футбольной формы",
+      "slug": "razmery-futbolnoj-formy",
+      "date": "2026-03-23",
+      "status": "published",
+      "cover": "/img/articles/a-bd1aee0857aff03c.webp",
+      "excerpt": "Тестовая статья: размеры футбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры футбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-03-23",
+      "test": true
+    },
+    {
+      "id": "63ef63206084841e",
+      "title": "Размеры баскетбольной формы",
+      "slug": "razmery-basketbolnoj-formy",
+      "date": "2026-03-16",
+      "status": "published",
+      "cover": "/img/articles/a-63ef63206084841e.webp",
+      "excerpt": "Тестовая статья: размеры баскетбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры баскетбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-03-16",
+      "test": true
+    },
+    {
+      "id": "a9bf898a4588d061",
+      "title": "Размеры хоккейных свитеров",
+      "slug": "razmery-hokkejnyh-sviterov",
+      "date": "2026-03-09",
+      "status": "published",
+      "cover": "/img/articles/a-a9bf898a4588d061.webp",
+      "excerpt": "Тестовая статья: размеры хоккейных свитеров — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры хоккейных свитеров».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-03-09",
+      "test": true
+    },
+    {
+      "id": "55943b48935efb19",
+      "title": "Размеры волейбольной формы",
+      "slug": "razmery-volejbolnoj-formy",
+      "date": "2026-03-02",
+      "status": "published",
+      "cover": "/img/articles/a-55943b48935efb19.webp",
+      "excerpt": "Тестовая статья: размеры волейбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры волейбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-03-02",
+      "test": true
+    },
+    {
+      "id": "cb3eb11432f0f878",
+      "title": "Размеры беговых футболок",
+      "slug": "razmery-begovyh-futbolok",
+      "date": "2026-02-23",
+      "status": "published",
+      "cover": "/img/articles/a-cb3eb11432f0f878.webp",
+      "excerpt": "Тестовая статья: размеры беговых футболок — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры беговых футболок».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-02-23",
+      "test": true
+    },
+    {
+      "id": "14937834cbb347f3",
+      "title": "Размеры спортивных костюмов",
+      "slug": "razmery-sportivnyh-kostyumov",
+      "date": "2026-02-16",
+      "status": "published",
+      "cover": "/img/articles/a-14937834cbb347f3.webp",
+      "excerpt": "Тестовая статья: размеры спортивных костюмов — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры спортивных костюмов».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-02-16",
+      "test": true
+    },
+    {
+      "id": "ba0a54ed844c71cd",
+      "title": "Размеры худи с логотипом",
+      "slug": "razmery-hudi-s-logotipom",
+      "date": "2026-02-09",
+      "status": "published",
+      "cover": "/img/articles/a-ba0a54ed844c71cd.webp",
+      "excerpt": "Тестовая статья: размеры худи с логотипом — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры худи с логотипом».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-02-09",
+      "test": true
+    },
+    {
+      "id": "7b60752280018be1",
+      "title": "Размеры школьной формы",
+      "slug": "razmery-shkolnoj-formy",
+      "date": "2026-02-02",
+      "status": "published",
+      "cover": "/img/articles/a-7b60752280018be1.webp",
+      "excerpt": "Тестовая статья: размеры школьной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры школьной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-02-02",
+      "test": true
+    },
+    {
+      "id": "ae70586f33984be8",
+      "title": "Размеры формы для единоборств",
+      "slug": "razmery-formy-dlya-edinoborstv",
+      "date": "2026-01-26",
+      "status": "published",
+      "cover": "/img/articles/a-ae70586f33984be8.webp",
+      "excerpt": "Тестовая статья: размеры формы для единоборств — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры формы для единоборств».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-01-26",
+      "test": true
+    },
+    {
+      "id": "cb4365c6d333e04a",
+      "title": "Размеры корпоративного мерча",
+      "slug": "razmery-korporativnogo-mercha",
+      "date": "2026-01-19",
+      "status": "published",
+      "cover": "/img/articles/a-cb4365c6d333e04a.webp",
+      "excerpt": "Тестовая статья: размеры корпоративного мерча — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Размеры корпоративного мерча».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-01-19",
+      "test": true
+    },
+    {
+      "id": "1b2ff477b3bc06da",
+      "title": "Уход за футбольной формы",
+      "slug": "uhod-za-futbolnoj-formy",
+      "date": "2026-01-12",
+      "status": "published",
+      "cover": "/img/articles/a-1b2ff477b3bc06da.webp",
+      "excerpt": "Тестовая статья: уход за футбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за футбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-01-12",
+      "test": true
+    },
+    {
+      "id": "9ad5e7b1e5832f41",
+      "title": "Уход за баскетбольной формы",
+      "slug": "uhod-za-basketbolnoj-formy",
+      "date": "2026-01-05",
+      "status": "published",
+      "cover": "/img/articles/a-9ad5e7b1e5832f41.webp",
+      "excerpt": "Тестовая статья: уход за баскетбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за баскетбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2026-01-05",
+      "test": true
+    },
+    {
+      "id": "9569b396ae4edace",
+      "title": "Уход за хоккейных свитеров",
+      "slug": "uhod-za-hokkejnyh-sviterov",
+      "date": "2025-12-29",
+      "status": "published",
+      "cover": "/img/articles/a-9569b396ae4edace.webp",
+      "excerpt": "Тестовая статья: уход за хоккейных свитеров — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за хоккейных свитеров».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-12-29",
+      "test": true
+    },
+    {
+      "id": "7dd7ed707b859939",
+      "title": "Уход за волейбольной формы",
+      "slug": "uhod-za-volejbolnoj-formy",
+      "date": "2025-12-22",
+      "status": "published",
+      "cover": "/img/articles/a-7dd7ed707b859939.webp",
+      "excerpt": "Тестовая статья: уход за волейбольной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за волейбольной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-12-22",
+      "test": true
+    },
+    {
+      "id": "b3b830ad199baaa1",
+      "title": "Уход за беговых футболок",
+      "slug": "uhod-za-begovyh-futbolok",
+      "date": "2025-12-15",
+      "status": "published",
+      "cover": "/img/articles/a-b3b830ad199baaa1.webp",
+      "excerpt": "Тестовая статья: уход за беговых футболок — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за беговых футболок».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-12-15",
+      "test": true
+    },
+    {
+      "id": "93b42ce2b4fa6d48",
+      "title": "Уход за спортивных костюмов",
+      "slug": "uhod-za-sportivnyh-kostyumov",
+      "date": "2025-12-08",
+      "status": "published",
+      "cover": "/img/articles/a-93b42ce2b4fa6d48.webp",
+      "excerpt": "Тестовая статья: уход за спортивных костюмов — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за спортивных костюмов».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-12-08",
+      "test": true
+    },
+    {
+      "id": "d32988459149835a",
+      "title": "Уход за худи с логотипом",
+      "slug": "uhod-za-hudi-s-logotipom",
+      "date": "2025-12-01",
+      "status": "published",
+      "cover": "/img/articles/a-d32988459149835a.webp",
+      "excerpt": "Тестовая статья: уход за худи с логотипом — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за худи с логотипом».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-12-01",
+      "test": true
+    },
+    {
+      "id": "e1571e70be94d38f",
+      "title": "Уход за школьной формы",
+      "slug": "uhod-za-shkolnoj-formy",
+      "date": "2025-11-24",
+      "status": "published",
+      "cover": "/img/articles/a-e1571e70be94d38f.webp",
+      "excerpt": "Тестовая статья: уход за школьной формы — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за школьной формы».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-11-24",
+      "test": true
+    },
+    {
+      "id": "933aae716d5b6372",
+      "title": "Уход за формы для единоборств",
+      "slug": "uhod-za-formy-dlya-edinoborstv",
+      "date": "2025-11-17",
+      "status": "published",
+      "cover": "/img/articles/a-933aae716d5b6372.webp",
+      "excerpt": "Тестовая статья: уход за формы для единоборств — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за формы для единоборств».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-11-17",
+      "test": true
+    },
+    {
+      "id": "330cbf3cb29874d2",
+      "title": "Уход за корпоративного мерча",
+      "slug": "uhod-za-korporativnogo-mercha",
+      "date": "2025-11-10",
+      "status": "published",
+      "cover": "/img/articles/a-330cbf3cb29874d2.webp",
+      "excerpt": "Тестовая статья: уход за корпоративного мерча — коротко о главном из опыта нашего производства.",
+      "body": "<p>Тестовый текст статьи «Уход за корпоративного мерча».</p><h2>Главное</h2><p>Абзац с советами.</p><ul><li>Пункт один</li><li>Пункт два</li></ul>",
+      "created": "2025-11-10",
+      "test": true
     }
   ]
 }

@@ -60,17 +60,46 @@ try:
     from PIL import Image
 except ImportError:
     Image = None
+WIDTHS = (240, 480, 800, 1200)  # адаптивные webp: name-<w>.webp; name.webp = самый крупный
+
+
+def variants(name):
+    """[(w, файл)] существующих webp-вариантов по возрастанию ширины."""
+    stem = (ROOT / "img/products" / name).stem
+    return [(w, f"{stem}-{w}.webp") for w in WIDTHS if (ROOT / "img/products" / f"{stem}-{w}.webp").exists()]
+
+
 for jpg in (ROOT / "img/products").glob("*.jp*g"):
     webp = jpg.with_suffix(".webp")
     if Image and (not webp.exists() or webp.stat().st_mtime < jpg.stat().st_mtime):
         try:
-            Image.open(jpg).convert("RGB").save(webp, "WEBP", quality=78, method=6)
+            im = Image.open(jpg).convert("RGB")
+            im.save(webp, "WEBP", quality=82, method=6)
+            for w in WIDTHS:
+                v = jpg.with_name(f"{jpg.stem}-{w}.webp")
+                if w <= im.width:
+                    im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(v, "WEBP", quality=84 if w <= 480 else 82, method=6)
+                elif v.exists():
+                    v.unlink()
         except Exception as ex:
             print("webp skip", jpg.name, ex)
 
+CARD_SIZES = "(max-width:1000px) 50vw, 25vw"
+MAIN_SIZES = "(max-width:1000px) 100vw, 50vw"
 
-def pimg(name, alt, attrs='loading="lazy" decoding="async"', **kw):
-    """<picture> с webp, если он есть, и jpg-фолбэком; width/height для CLS."""
+
+def srcset(name, minw=0):
+    v = [(w, f) for w, f in variants(name) if w >= minw]
+    return ", ".join(f"/img/products/{f} {w}w" for w, f in v)
+
+
+def small(name):
+    v = [f for w, f in variants(name) if w >= 240]
+    return v[0] if v else best(name)
+
+
+def pimg(name, alt, attrs='loading="lazy" decoding="async"', sizes=CARD_SIZES, **kw):
+    """<picture> с адаптивным webp (srcset) и jpg-фолбэком; width/height для CLS."""
     f = ROOT / "img/products" / name
     wh = ""
     if Image and f.exists():
@@ -80,9 +109,11 @@ def pimg(name, alt, attrs='loading="lazy" decoding="async"', **kw):
             pass
     extra = "".join(f' {k}="{v}"' for k, v in kw.items())
     tag = f'<img src="/img/products/{name}" alt="{e(alt)}"{wh} {attrs}{extra}>'
+    ss = srcset(name, 480)
+    if ss:
+        return f'<picture><source srcset="{ss}" sizes="{sizes}" type="image/webp">{tag}</picture>'
     w = f.with_suffix(".webp")
     return f'<picture><source srcset="/img/products/{w.name}" type="image/webp">{tag}</picture>' if w.exists() else tag
-
 
 ORG = {
     "@context": "https://schema.org", "@graph": [
@@ -164,8 +195,32 @@ def page(title, desc, url, body, img=None, jsonld=()):
 def crumbs(*parts):
     out = ['<a href="/">Главная</a>']
     for name, href in parts:
-        out.append(f'<a href="{href}">{e(name)}</a>' if href else f"<span>{e(name)}</span>")
+        if href is False:  # visible but not clickable
+            out.append(f'<b class="nolink">{e(name)}</b>')
+        else:
+            out.append(f'<a href="{href}">{e(name)}</a>' if href else f"<span>{e(name)}</span>")
     return '<nav class="crumbs mono">' + '<i>/</i>'.join(out) + "</nav>"
+
+
+def fill_card(count):
+    """CTA card that fills the empty slots of the last row (4 per row)."""
+    rest = (4 - count % 4) % 4
+    if not rest:
+        return ""
+    steps = "" if rest == 1 else """<ol class="pf-steps">
+    <li><i>01</i><b>Присылаете идею</b><small>эскиз, фото или образец</small></li>
+    <li><i>02</i><b>Делаем макет</b><small>ткань, крой, нанесение</small></li>
+    <li><i>03</i><b>Шьём партию</b><small>от одной штуки, в срок</small></li>
+  </ol>"""
+    return f"""<a class="pcard-fill{' wide' if rest > 1 else ''}" href="#contact" style="--span:{rest}">
+  <div class="pf-text">
+    <span class="mono">Индивидуальный пошив</span>
+    <b>Не нашли нужную модель?</b>
+    <p>Сошьём по вашему эскизу или образцу — от одной штуки. Подберём ткань, крой и нанесение.</p>
+    <span class="btn">Получить расчёт</span>
+  </div>
+  {steps}
+</a>"""
 
 
 def chips(active=None):
@@ -186,8 +241,8 @@ def crumbs_ld(*parts):
         {"@type": "ListItem", "position": i + 1, "name": n, "item": SITE + u} for i, (n, u) in enumerate(items)]}
 
 
-def card(c, it, h="h2", first=False):
-    attrs = 'decoding="async"' if first else 'loading="lazy" decoding="async"'
+def card(c, it, h="h2", first=False, lcp=False):
+    attrs = ('fetchpriority="high" decoding="async"' if lcp else 'decoding="async"') if first else 'loading="lazy" decoding="async"'
     return f"""<a class="pcard" href="/catalog/{c['slug']}/{it['slug']}/">
   <div class="pcard-ph">{pimg(it['img'][0], it['name'], attrs)}</div>
   <div class="pcard-t"><span class="mono">{e(c['name'])}</span><{h}>{e(it['name'])}</{h}><p>{e(it['short'])}</p></div>
@@ -209,13 +264,14 @@ if out.exists():
     for child in out.iterdir():
         shutil.rmtree(child) if child.is_dir() else child.unlink()
 urls = ["/", "/catalog/"]
+url_imgs = {}
 import datetime
 TODAY = datetime.date.today().isoformat()
 
 # /catalog/
 all_cards = "".join(
-    f"""<a class="ccard" href="/catalog/{c['slug']}/">
-  <div class="ccard-ph">{pimg(c['items'][0]['img'][0], c['name'], 'decoding="async"' if n < 4 else 'loading="lazy" decoding="async"')}</div>
+    f"""<a class="ccard" href="/catalog/{c['slug']}/{c['items'][0]['slug'] + '/' if len(c['items']) == 1 else ''}">
+  <div class="ccard-ph">{pimg(c['items'][0]['img'][0], c['name'], ('fetchpriority="high" decoding="async"' if n == 0 else 'decoding="async"') if n < 4 else 'loading="lazy" decoding="async"')}</div>
   <div class="ccard-t"><h2>{e(c['name'])}</h2><span class="mono">{len(c['items'])} поз.</span></div>
 </a>"""
     for n, c in enumerate(data["categories"])
@@ -223,8 +279,6 @@ all_cards = "".join(
 body = f"""<section class="cat-hero"><div class="wrap">
   {crumbs(("Каталог", None))}
   <h1>Каталог продукции</h1>
-  <p class="cat-lead">Всё, что мы шьём, — от одной штуки. Выберите изделие и отправьте ссылку менеджеру: рассчитаем стоимость и срок.</p>
-  {chips()}
 </div></section>
 <section class="cat-body"><div class="wrap"><div class="ccards">{all_cards}</div></div></section>
 """
@@ -252,7 +306,16 @@ for c in data["categories"]:
     curl = f"/catalog/{c['slug']}/"
     items = c["items"]
     total = max(1, -(-len(items) // PER_PAGE))
-    for n in range(1, total + 1):
+    single = len(items) == 1
+    if single:  # one product -> category URL forwards straight to it
+        target = f"{curl}{items[0]['slug']}/"
+        (out / c["slug"]).mkdir(parents=True, exist_ok=True)
+        (out / c["slug"] / "index.html").write_text(
+            f'<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>{e(c["name"])} | Vaxter Five</title>'
+            f'<meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{target}">'
+            f'<meta http-equiv="refresh" content="0;url={target}"><script>location.replace("{target}")</script></head>'
+            f'<body><a href="{target}">{e(items[0]["name"])}</a></body></html>', encoding="utf-8")
+    for n in range(1, 0 if single else total + 1):
         purl_page = curl if n == 1 else f"{curl}page/{n}/"
         urls.append(purl_page)
         chunk = items[(n - 1) * PER_PAGE: n * PER_PAGE]
@@ -262,7 +325,7 @@ for c in data["categories"]:
   <h1>{e(c["name"])}</h1>
   <p class="cat-lead">{e(c["lead_text"])}</p>
 </div></section>
-<section class="cat-body"><div class="wrap"><div class="pcards">{"".join(card(c, it, "h2", n == 1 and i < 2) for i, it in enumerate(chunk))}</div>{pager(curl, n, total)}</div></section>"""
+<section class="cat-body"><div class="wrap"><div class="pcards">{"".join(card(c, it, "h2", n == 1 and i < 2, n == 1 and i == 0) for i, it in enumerate(chunk))}{fill_card(len(chunk))}</div>{pager(curl, n, total)}</div></section>"""
         d = out / c["slug"] if n == 1 else out / c["slug"] / "page" / str(n)
         d.mkdir(parents=True, exist_ok=True)
         (d / "index.html").write_text(page(f"{c['name']} на заказ от 1 штуки — пошив во Владимире{suffix} | Vaxter Five", c["lead_text"], purl_page, body, chunk[0]["img"][0], jsonld=[
@@ -273,9 +336,10 @@ for c in data["categories"]:
     for it in c["items"]:
         purl = f"{curl}{it['slug']}/"
         urls.append(purl)
+        url_imgs[purl] = [(f"/img/products/{best(im)}", it["name"]) for im in it["img"]]
         spec = lambda k: it.get(k, D.get(k, ""))
         thumbs = "".join(
-            f'<button type="button" class="{"on" if i == 0 else ""}" data-img="/img/products/{best(im)}" aria-label="Фото {i + 1}"><img src="/img/products/{best(im)}" alt="" width="400" height="532" loading="lazy" decoding="async"></button>'
+            f'<button type="button" class="{"on" if i == 0 else ""}" data-img="/img/products/{best(im)}" data-srcset="{srcset(im, 480)}" aria-label="Фото {i + 1}"><img src="/img/products/{small(im)}" alt="{e(it['name'])} — фото {i + 1}" width="240" height="320" loading="lazy" decoding="async"></button>'
             for i, im in enumerate(it["img"])
         ) if len(it["img"]) > 1 else ""
         rows = [("Материал", spec("fabric")), ("Нанесение", spec("print")), ("Размеры", spec("sizes")),
@@ -286,10 +350,10 @@ for c in data["categories"]:
         more = f"""<section class="cat-more"><div class="wrap"><h2>Ещё в разделе «{e(c['name'])}»</h2>
 <div class="pcards">{"".join(card(c, x, "h3") for x in others)}</div></div></section>""" if others else ""
         body = f"""<section class="prod"><div class="wrap">
-  {crumbs(("Каталог", "/catalog/"), (c["name"], curl), (it["name"], None))}
+  {crumbs(("Каталог", "/catalog/"), (c["name"], False if single else curl), (it["name"], None))}
   <div class="prod-grid">
     <div class="gallery">
-      <div class="gallery-main"><img id="gmain" src="/img/products/{best(it['img'][0])}" alt="{e(it['name'])}" width="400" height="532" fetchpriority="high"></div>
+      <div class="gallery-main"><img id="gmain" src="/img/products/{best(it['img'][0])}" srcset="{srcset(it['img'][0], 480)}" sizes="{MAIN_SIZES}" alt="{e(it['name'])}" width="1200" height="1600" fetchpriority="high"></div>
       <div class="gallery-thumbs">{thumbs}</div>
     </div>
     <div class="prod-info">
@@ -304,15 +368,31 @@ for c in data["categories"]:
 {more}"""
         (out / c["slug"] / it["slug"]).mkdir(parents=True, exist_ok=True)
         (out / c["slug"] / it["slug"] / "index.html").write_text(
-            page(f"{it['name']} на заказ — пошив от 1 штуки | Vaxter Five", it["short"], purl, body, it["img"][0], jsonld=[
+            page(f"{it['name']} на заказ — пошив от 1 штуки | Vaxter Five",
+                 f"{it['short'].rstrip('.')}. Пошив на заказ во Владимире от 1 штуки, нанесение логотипа и номеров. Собственное производство Vaxter Five.", purl, body, it["img"][0], jsonld=[
                 crumbs_ld(("Каталог", "/catalog/"), (c["name"], curl), (it["name"], purl)),
                 {"@context": "https://schema.org", "@type": "Product", "name": it["name"], "description": it["short"],
                  "image": [f"{SITE}/img/products/{im}" for im in it["img"]], "category": c["name"], "url": SITE + purl,
                  "brand": {"@type": "Brand", "name": "Vaxter Five"}, "manufacturer": {"@id": SITE + "/#org"}}]), encoding="utf-8")
 
+# --- блог /articles/ (отдельный модуль catalog-src/articles.py; добавляет свои URL в sitemap) ---
+import articles as _articles  # noqa: E402
+_articles.build(globals())
+
+def sm_url(u):
+    depth = u.strip("/").count("/") + (1 if u.strip("/") else 0)
+    prio = {0: "1.0", 1: "0.9", 2: "0.8"}.get(depth, "0.7")
+    imgs = "".join(f"<image:image><image:loc>{SITE}{src}</image:loc><image:title>{e(t)}</image:title></image:image>"
+                   for src, t in url_imgs.get(u, []))
+    return f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod><priority>{prio}</priority>{imgs}</url>\n"
+
+
+url_imgs.setdefault("/", [("/img/hero/team-10-years.webp", "Команда Vaxter Five"),
+                          ("/img/production/workshop-floor.webp", "Швейное производство Vaxter Five во Владимире")])
 (ROOT / "sitemap.xml").write_text(
-    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    + "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod></url>\n" for u in urls) + "</urlset>\n", encoding="utf-8")
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+    'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'
+    + "".join(sm_url(u) for u in urls) + "</urlset>\n", encoding="utf-8")
 print(f"OK: {len(urls) - 1} catalog pages + sitemap.xml")
 
 

@@ -1,0 +1,61 @@
+/* Раздел «Статьи»: список + редактор. Подключается только на этих страницах. */
+.head-act{display:flex;gap:8px;flex-wrap:wrap}
+.st-tg{font:inherit;font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--ink2);cursor:pointer;white-space:nowrap;transition:.15s}
+.st-tg::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#c5cad3;margin-right:8px;vertical-align:1px}
+.st-tg.on{background:#eaf7ef;border-color:#bfe6cd;color:#0d7a38}
+.st-tg.on::before{background:var(--green)}
+.st-tg:hover{border-color:var(--ink)}
+
+.art-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.art-side{display:grid;gap:18px;position:static}
+.art-cover{border-radius:14px;overflow:hidden;background:var(--bg2);aspect-ratio:16/9}
+.art-cover img{width:100%;height:100%;object-fit:cover}
+label.chk{flex-direction:row;align-items:center;gap:10px;cursor:pointer}
+.cnt{align-self:flex-end;margin-top:-2px}
+.danger-ghost{color:var(--red)}
+.danger-ghost:hover{border-color:var(--red)!important;background:var(--red);color:#fff}
+
+/* статус: сегментный переключатель */
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:4px;gap:4px}
+.seg-o{display:block;cursor:pointer}
+.seg-o input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.seg-o span{display:block;text-align:center;padding:9px 8px;border-radius:10px;font-size:14px;font-weight:700;color:var(--ink2);transition:.15s}
+.seg-o input:checked+span{background:#fff;color:var(--ink);box-shadow:0 2px 8px -3px rgba(11,13,18,.25)}
+.seg-o input[value=published]:checked+span{color:#0d7a38}
+.seg-o input:focus-visible+span{box-shadow:0 0 0 3px rgba(31,75,255,.25)}
+
+/* редактор */
+.ed{border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-weight:400;font-size:16px;transition:border-color .15s,box-shadow .15s}
+.ed:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,75,255,.15)}
+.ed.busy{opacity:.7;pointer-events:none}
+.ed-bar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;border-bottom:1px solid var(--line);background:#fafbfc;border-radius:14px 14px 0 0;position:static}
+.ed-b{font:inherit;font-size:13px;font-weight:600;min-width:34px;height:34px;padding:0 10px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--ink);cursor:pointer;transition:.12s}
+.ed-b:hover{background:#fff;border-color:var(--line)}
+.ed-b.on{background:var(--ink);color:#fff}
+.ed-b b,.ed-b i{font-size:15px}
+.ed-sep{width:1px;background:var(--line);margin:4px 2px}
+.ed-link{display:flex;gap:8px;padding:8px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ed-link[hidden]{display:none}
+.ed-lb{font:inherit;font-size:13px;font-weight:700;padding:0 14px;height:38px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.ed-lb:hover{border-color:var(--ink)}
+.ed-lb.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.ed-link input{flex:1;min-width:200px;padding:8px 12px}
+.ed-area{min-height:460px;padding:22px 24px;outline:0;line-height:1.65;overflow-wrap:anywhere}
+.ed-area:empty::before,.ed-area>p:only-child:empty::before{content:attr(data-ph);color:var(--muted)}
+.ed-area>*+*{margin-top:.8em}
+.ed-area h2{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-top:1.3em}
+.ed-area h3{font-size:20px;font-weight:700;line-height:1.3;margin-top:1.1em}
+.ed-area ul,.ed-area ol{padding-left:1.4em}
+.ed-area li+li{margin-top:.3em}
+.ed-area a{color:var(--accent);text-decoration:underline}
+.ed-area blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 18px;color:var(--ink2);font-size:18px}
+.ed-area figure{margin:1.2em 0;border-radius:12px;outline:2px solid transparent;outline-offset:4px;transition:outline-color .15s}
+.ed-area figure.sel{outline-color:var(--accent)}
+.ed-area figure img{border-radius:12px;max-height:520px;width:auto;cursor:pointer}
+.ed-area figcaption{font-size:14px;color:var(--ink2);margin-top:8px;outline:0;border-bottom:1px dashed var(--line);padding-bottom:2px}
+.ed-area figcaption:empty::before{content:attr(data-ph);color:var(--muted)}
+.ed-status{padding:8px 14px;border-top:1px solid var(--line);min-height:34px;font-size:11px}
+.ed-status.err{color:var(--red)}
+
+@media (max-width:980px){.art-grid{grid-template-columns:1fr}}
+@media (max-width:560px){.ed-area{padding:16px;min-height:340px}.ed-b{min-width:32px;height:32px;padding:0 8px}}

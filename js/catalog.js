@@ -1,7 +1,7 @@
 // gallery thumbs
 const gmain = document.getElementById('gmain');
 document.querySelectorAll('.gallery-thumbs button').forEach(b => b.onclick = () => {
-  gmain.src = b.dataset.img;
+  if (b.dataset.srcset) gmain.srcset = b.dataset.srcset; gmain.src = b.dataset.img;
   document.querySelectorAll('.gallery-thumbs button').forEach(x => x.classList.toggle('on', x === b));
 });
 

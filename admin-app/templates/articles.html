@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block title %}Статьи{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=2">
+<div class="head">
+  <div><span class="mono">Блог</span><h1>Статьи</h1></div>
+  <div class="head-act"><a class="btn ghost sm" href="/articles/" target="_blank" rel="noopener">Статьи на сайте ↗</a><a class="btn sm" href="{{ url_for('article_new') }}">+ Новая статья</a></div>
+</div>
+<p class="hint">Новые статьи сверху. Черновики на сайте не видны; «Опубликована» — статья сразу появляется в разделе /articles/.</p>
+<div class="list">
+  {% for a in items %}
+  <div class="row">
+    <a class="row-main" href="{{ url_for('article', slug=a.slug) }}">
+      <span class="thumb">{% if a.cover %}<img src="{{ a.cover }}" alt="" loading="lazy">{% else %}<em>нет обложки</em>{% endif %}</span>
+      <span class="row-t"><b>{{ a.title }}</b><small class="mono">{{ a.date }} · /articles/{{ a.slug }}/</small></span>
+    </a>
+    <div class="row-act">
+      <form method="post" action="{{ url_for('article_status', slug=a.slug) }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}">
+        <button class="st-tg {{ 'on' if a.status == 'published' }}" title="{{ 'Снять с сайта (в черновик)' if a.status == 'published' else 'Опубликовать на сайте' }}">{{ 'Опубликована' if a.status == 'published' else 'Черновик' }}</button></form>
+      <form method="post" action="{{ url_for('article_delete', slug=a.slug) }}" data-confirm="Удалить статью «{{ a.title }}»? Она исчезнет с сайта."><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="ibtn danger" title="Удалить" aria-label="Удалить">✕</button></form>
+    </div>
+  </div>
+  {% else %}<p class="empty">Статей пока нет — нажмите «+ Новая статья».</p>{% endfor %}
+</div>
+{% endblock %}

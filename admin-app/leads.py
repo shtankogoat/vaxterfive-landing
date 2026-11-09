@@ -13,6 +13,29 @@ MAT = {"Знаю", "Помощь"}
 VIA = {"Звонок", "MAX", "Telegram", "ВКонтакте"}
 PHONE_RE = re.compile(r"^\+?[\d\s()\-]{10,20}$")
 TG_RE = re.compile(r"^@[A-Za-z0-9_]{4,32}$")
+# ссылки: t.me/nick, vk.com/id1 | vk.com/nick, max.ru/u/... (с https:// или без, m./www.)
+_TG_URL = re.compile(r"^(?:https?://)?(?:www\.)?(?:t|telegram)\.me/([A-Za-z0-9_]{4,32})/?$", re.I)
+_VK_URL = re.compile(r"^(?:https?://)?(?:m\.|www\.)?vk\.(?:com|ru|me)/([A-Za-z0-9_.]{2,64})/?(?:\?.*)?$", re.I)
+_MAX_URL = re.compile(r"^(?:https?://)?(?:www\.)?max\.ru/([A-Za-z0-9_\-/]{2,90})(?:\?.*)?$", re.I)
+
+
+def parse_contact(s):
+    """→ (канал, нормализованный контакт, ссылка или None) либо None, если формат не распознан."""
+    s = (s or "").strip()
+    if PHONE_RE.match(s) and 10 <= len(re.sub(r"\D", "", s)) <= 15:
+        return "Telegram", s, None  # по телефону — переводим в Telegram
+    if TG_RE.match(s):
+        return "Telegram", s, f"https://t.me/{s[1:]}"
+    m = _TG_URL.match(s)
+    if m:
+        return "Telegram", "@" + m.group(1), f"https://t.me/{m.group(1)}"
+    m = _VK_URL.match(s)
+    if m:
+        u = f"https://vk.com/{m.group(1)}"; return "ВКонтакте", u, u
+    m = _MAX_URL.match(s)
+    if m:
+        u = f"https://max.ru/{m.group(1).rstrip('/')}"; return "MAX", u, u
+    return None
 KIT_RE = re.compile(r"^https://vaxterfive\.ru/#k=[A-Za-z0-9_\-.~%=&+]{1,4000}$")
 RATE = ((10 * 60, 5), (24 * 3600, 30))  # окно, максимум заявок с одного IP
 
@@ -96,9 +119,11 @@ def validate(form, files):
     if not name or len(name) > 100:
         raise ValueError("Укажите имя (до 100 символов).")
     if not contact or len(contact) > 100:
-        raise ValueError("Укажите телефон или @telegram.")
-    if not (PHONE_RE.match(contact) and 10 <= len(re.sub(r"\D", "", contact)) <= 15) and not TG_RE.match(contact):
-        raise ValueError("Контакт: телефон (например +7 900 123-45-67) или ник Telegram (@username).")
+        raise ValueError("Укажите телефон, @telegram или ссылку на ВК / MAX.")
+    pc = parse_contact(contact)
+    if not pc:
+        raise ValueError("Контакт: телефон, @ник Telegram или ссылка на ВКонтакте / MAX.")
+    contact = pc[1]
     if form.get("consent") != "Да":
         raise ValueError("Нужно согласие на обработку персональных данных.")
     qty = None
@@ -119,11 +144,11 @@ def validate(form, files):
         raise ValueError("Некорректное значение поля «Дизайн».")
     if mat and mat not in MAT:
         raise ValueError("Некорректное значение поля «Материал».")
-    via = g("via") or None
-    if via and via not in VIA:
+    via = pc[0]  # канал определяется по контакту, выбор в форме убран
+    if via not in VIA:
         raise ValueError("Некорректный способ связи.")
     page = g("page")[:500] or None
-    if page and not page.startswith(("https://vaxterfive.ru", "http://127.0.0.1", "http://localhost")):
+    if page and not re.match(r"^(https://(www\.)?vaxterfive\.ru|http://(127\.0\.0\.1|localhost)(:\d+)?)(/|$)", page):
         page = None
     kit = g("kit") or None
     if kit and not KIT_RE.match(kit):
@@ -207,15 +232,16 @@ def _is_phone(s):
     return bool(PHONE_RE.match(s)) and 10 <= len(re.sub(r"\D", "", s)) <= 15
 
 
-def _tg_link(s):
-    return f"https://t.me/{s[1:]}" if s and TG_RE.match(s) else None
+def _tg_link(s):  # ссылка на профиль (Telegram / VK / MAX) для карточки АМО
+    pc = parse_contact(s)
+    return pc[2] if pc else None
 
 
 def note_text(lead, file_url):
     d = lead["data"]
     rows = [("Что сшить", d.get("what")), ("Количество", d.get("qty")), ("Срок", d.get("date")),
             ("Дизайн", d.get("design")), ("Материал", d.get("mat")), ("Имя", d.get("name")),
-            ("Контакт", d.get("contact")), ("Telegram", _tg_link(d.get("contact"))),
+            ("Контакт", d.get("contact")), ("Профиль", _tg_link(d.get("contact"))),
             ("Как связаться", d.get("via")), ("Конструктор", d.get("kit")),
             ("Файл", f"{lead['file_name']} — {file_url} (нужен вход в админку)" if lead.get("file") else None),
             ("Страница", d.get("page")), ("IP", lead.get("ip")), ("Время", lead.get("when") + " МСК")]

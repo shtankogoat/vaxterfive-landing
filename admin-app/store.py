@@ -71,7 +71,7 @@ def audit(user, action, detail="", ip=""):
         f.write(line + "\n")
 
 
-def read_audit(limit=300):
+def read_audit(limit=50):
     if not AUDIT.exists():
         return []
     out = []

@@ -1,0 +1,59 @@
+{% extends "base.html" %}{% block title %}{{ a.title if a else 'Новая статья' }}{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=2">
+<nav class="crumbs mono"><a href="{{ url_for('articles') }}">Статьи</a><i>/</i><span>{{ a.title if a else 'Новая статья' }}</span></nav>
+<div class="head">
+  <div><h1>{{ a.title if a else 'Новая статья' }}</h1></div>
+  {% if a %}
+    {% if live %}<a class="btn ghost sm" href="{{ live }}" target="_blank" rel="noopener">Статья на сайте ↗</a>
+    {% else %}<span class="tag">Черновик — на сайте не видна</span>{% endif %}
+  {% endif %}
+</div>
+
+<form method="post" enctype="multipart/form-data" class="art-form" id="art-form" data-busy="Сохраняем…">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <div class="art-grid">
+    <section class="card-f art-main">
+      <label>Заголовок *<input name="title" value="{{ form.title or '' }}" required maxlength="160" {{ 'data-slug-src' if not a }}></label>
+      <label>Текст статьи
+        <textarea name="body" id="art-body" class="art-src" rows="14">{{ form.body or '' }}</textarea>
+      </label>
+    </section>
+
+    <aside class="art-side">
+      <section class="card-f">
+        <h2>Публикация</h2>
+        <div class="seg" role="radiogroup" aria-label="Статус">
+          <label class="seg-o"><input type="radio" name="status" value="draft" {{ 'checked' if (form.status or 'draft') == 'draft' }}><span>Черновик</span></label>
+          <label class="seg-o"><input type="radio" name="status" value="published" {{ 'checked' if form.status == 'published' }}><span>Опубликована</span></label>
+        </div>
+        <label>Дата публикации *<input type="date" name="date" value="{{ form.date or '' }}" required></label>
+        <label>Адрес (slug) *<input name="slug" value="{{ form.slug or '' }}" required maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*" data-slug placeholder="kak-vybrat-formu"><small>/articles/<i>slug</i>/ — заполняется из заголовка, можно поправить</small></label>
+        <label>Краткое описание (для списка и поисковиков)<textarea name="excerpt" rows="4" maxlength="300" data-count>{{ form.excerpt or '' }}</textarea><small>До 300 символов. Если пусто — возьмём начало текста.</small></label>
+        <div class="formact"><button class="btn" id="art-save">{{ 'Сохранить' if a else 'Создать статью' }}</button><a class="btn ghost" href="{{ url_for('articles') }}">Назад</a></div>
+      </section>
+
+      <section class="card-f">
+        <h2>Обложка</h2>
+        {% if form.cover %}<figure class="art-cover"><img src="{{ form.cover }}" alt=""></figure>
+        <label class="chk"><input type="checkbox" name="cover_remove" value="1"> Убрать обложку</label>{% endif %}
+        <label class="drop"><input type="file" name="cover" accept="image/jpeg,image/png,image/webp">
+          <span class="drop-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
+          <span class="drop-txt"><b class="drop-title">{{ 'Заменить обложку' if form.cover else 'Перетащите фото сюда или нажмите' }}</b><small>JPG, PNG, WEBP · до 15 МБ · лучше горизонтальное 16:9</small></span></label>
+        <div class="drop-prev" aria-live="polite"></div>
+      </section>
+
+      {% if a %}
+      <section class="card-f">
+        <h2>Удаление</h2>
+        <p class="hint">Статья исчезнет с сайта. Её можно вернуть через «Версии».</p>
+        <button type="submit" form="art-del" class="btn ghost danger-ghost">Удалить статью</button>
+      </section>
+      {% endif %}
+    </aside>
+  </div>
+</form>
+{% if a %}<form method="post" id="art-del" action="{{ url_for('article_delete', slug=a.slug) }}" data-confirm="Удалить статью «{{ a.title }}»? Она исчезнет с сайта."><input type="hidden" name="csrf" value="{{ csrf_token() }}"></form>{% endif %}
+<div hidden id="art-cfg" data-upload="{{ url_for('article_upload') }}" data-csrf="{{ csrf_token() }}"></div>
+<script src="{{ url_for('static', filename='editor.js') }}?v=3" defer></script>
+{% endblock %}

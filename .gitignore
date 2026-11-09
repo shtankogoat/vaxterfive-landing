@@ -5,3 +5,10 @@ admin-app/screenshots/
 *.before-fullwidth.css
 css/style.fullwidth-v1.css
 *.tgz
+
+# локальный мусор: загрузки, замеры, оригиналы фото, бэкапы
+_yadisk_dl/
+after/
+__pycache__/
+img/_originals-perf-*/
+catalog-src/catalog.backup-*.json

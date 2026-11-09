@@ -19,6 +19,7 @@
     <input type="checkbox" id="nav-t" class="nav-t" aria-label="Меню"><label for="nav-t" class="burger"><i></i><i></i><i></i></label>
     <nav class="nav">
       <a href="{{ url_for('home') }}" class="{{ 'on' if request.endpoint in ('home','cat','item','item_new') }}">Каталог</a>
+      <a href="{{ url_for('articles') }}" class="{{ 'on' if request.endpoint in ('articles','article','article_new') }}">Статьи</a>
       <a href="{{ url_for('defaults') }}" class="{{ 'on' if request.endpoint=='defaults' }}">По умолчанию</a>
       <a href="{{ url_for('versions') }}" class="{{ 'on' if request.endpoint=='versions' }}">Версии</a>
       <a href="{{ url_for('leads_page') }}" class="{{ 'on' if request.endpoint=='leads_page' }}">Заявки</a>
