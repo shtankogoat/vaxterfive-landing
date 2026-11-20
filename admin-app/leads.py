@@ -37,7 +37,10 @@ def parse_contact(s):
         u = f"https://max.ru/{m.group(1).rstrip('/')}"; return "MAX", u, u
     return None
 KIT_RE = re.compile(r"^https://vaxterfive\.ru/#k=[A-Za-z0-9_\-.~%=&+]{1,4000}$")
-RATE = ((10 * 60, 5), (24 * 3600, 30))  # окно, максимум заявок с одного IP
+RATE = ((10 * 60, 3), (24 * 3600, 10))  # окно, максимум заявок с одного IP
+GLOBAL_RATE = ((3600, 30), (24 * 3600, 150))  # общий потолок со всех IP — защита от ботнета
+PROTECT_DAYS = 7  # заявки моложе 7 дней никогда не вытесняются новыми
+HARD_MAX = 1000  # абсолютный потолок хранения
 
 _DB = _DIR = _JSONL = None
 _local = threading.local()
@@ -79,6 +82,9 @@ def rate_limited(ip):
     c.execute("DELETE FROM lead_hits WHERE ts < ?", (now - 86400,))
     for window, lim in RATE:
         if c.execute("SELECT count(*) FROM lead_hits WHERE ip=? AND ts>=?", (ip, now - window)).fetchone()[0] >= lim:
+            return True
+    for window, lim in GLOBAL_RATE:
+        if c.execute("SELECT count(*) FROM lead_hits WHERE ts>=?", (now - window,)).fetchone()[0] >= lim:
             return True
     return False
 
@@ -240,9 +246,11 @@ def delete(lid):
 
 
 def prune(keep=KEEP):
-    """Строго 50 последних заявок: пришла новая — самая старая удаляется."""
+    """50 последних; старше 50-й удаляются, но только если им больше 7 дней (спам не вытеснит свежие)."""
+    cut = time.time() - PROTECT_DAYS * 86400
     old = [r[0] for r in _conn().execute(
-        "SELECT id FROM leads WHERE id NOT IN (SELECT id FROM leads ORDER BY ts DESC LIMIT ?)", (keep,))]
+        "SELECT id FROM leads WHERE id NOT IN (SELECT id FROM leads ORDER BY ts DESC LIMIT ?) "
+        "AND (ts < ? OR id NOT IN (SELECT id FROM leads ORDER BY ts DESC LIMIT ?))", (keep, cut, HARD_MAX))]
     for lid in old:
         delete(lid)
     return len(old)
