@@ -850,10 +850,6 @@ def _origin_ok():
     return DEV and bool(re.match(r"^http://(127\.0\.0\.1|localhost)(:\d+)?$", src))
 
 
-def lead_file_url(lid):
-    return f"{SITE_URL}{P}/leads/{lid}/file"
-
-
 @app.post("/api/lead")
 def api_lead():
     if not _origin_ok():
@@ -876,15 +872,13 @@ def api_lead():
     except Exception:
         app.logger.exception("leads prune failed")
     S.audit("сайт", "Новая заявка", f"{lid[:8]} {data['name']} / {data['contact']}", ip())
-    if LD.amo_configured():
-        LD.send_async(lid, lead_file_url(lid))
     return {"ok": True, "code": lid[:8]}
 
 
 @app.get(P + "/leads")
 @login_required
 def leads_page():
-    return render_template("leads.html", leads=LD.list_all(), amo=LD.amo_configured())
+    return render_template("leads.html", leads=LD.list_all())
 
 
 @app.get(P + "/leads/<lid>/file")
@@ -901,35 +895,21 @@ def lead_file(lid):
                                download_name=lead["file_name"] or fp.name, max_age=0)
 
 
-@app.post(P + "/leads/<lid>/resend")
-@login_required
-def lead_resend(lid):
-    if not re.fullmatch(r"[0-9a-f]{32}", lid) or not LD.get(lid):
-        abort(404)
-    if not LD.amo_configured():
-        flash("AmoCRM не настроен — укажите AMO_SUBDOMAIN и AMO_TOKEN в env.", "error")
-    else:
-        LD.send_to_amo(lid, lead_file_url(lid))  # синхронно, чтобы сразу показать результат
-        st = LD.get(lid)
-        flash("Заявка отправлена в AmoCRM." if st["status"] == "sent" else f"Ошибка AmoCRM: {st['error']}",
-              "ok" if st["status"] == "sent" else "error")
-    log("Повторная отправка заявки в AMO", lid[:8])
-    return redirect(url_for("leads_page"))
-
-
 @app.post(P + "/leads/<lid>/delete")
 @login_required
 def lead_delete(lid):
     if not re.fullmatch(r"[0-9a-f]{32}", lid) or not LD.delete(lid):
         abort(404)
     log("Удалена заявка", lid[:8])
-    flash("Заявка удалена из админки (в AmoCRM она осталась).", "ok")
+    flash("Заявка удалена.", "ok")
     return redirect(url_for("leads_page"))
 
 
 # ---------- статьи (блог) — отдельный модуль ----------
 import articles_routes  # noqa: E402
 articles_routes.register(app, {"P": P, "login_required": login_required, "save_and_publish": save_and_publish, "log": log})
+import swatches_routes  # noqa: E402
+swatches_routes.register(app, {"P": P, "login_required": login_required, "save_and_publish": save_and_publish, "log": log})
 
 
 ERRORS = {

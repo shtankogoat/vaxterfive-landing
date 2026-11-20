@@ -69,7 +69,7 @@
 .kc-sec .zones{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .kc-sec .zone{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px 5px 5px;font:600 12.5px "Inter Tight",sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:var(--ink)}
 .kc-sec .zone i{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(11,13,18,.15)}
-.kc-sec .zone.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;background:#f3f6ff}
+.kc-sec .zone.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;background:#fef5f3}
 .kc-sec .palette{display:grid;grid-template-columns:repeat(9,1fr);gap:7px}
 .kc-sec .sw-b{aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(11,13,18,.14);transition:transform .2s;position:relative}
 .kc-sec .sw-b:hover{transform:scale(1.12)}
@@ -160,7 +160,7 @@
 .kc-sec .kc-stage{border-color:transparent;box-shadow:0 40px 80px -40px rgba(0,0,0,.6)}
 .kc-sec .kc-btn2{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:#fff}
 .kc-sec .kc-btn2:hover{background:rgba(255,255,255,.12);border-color:#fff}
-.kc-sec .btn:hover{box-shadow:0 12px 30px -10px rgba(31,75,255,.9)}
+.kc-sec .btn:hover{box-shadow:0 12px 30px -10px rgba(230,51,15,.9)}
 @media (max-width:640px){.kc-sec{margin:0;border-radius:0}}
 .kc-sec .seg button{white-space:nowrap}
 .kc-sec .kc-canvas{height:min(calc(100vh - 220px),740px);min-height:520px}
@@ -203,7 +203,7 @@
 /* поля */
 .kc-sec .picker{border:1px solid #2a2f3a;background:#171a22;color:#fff;border-radius:14px}
 .kc-sec #kc-c-hex,.kc-sec .fld input[type=text]{background:#171a22;border:1px solid #2a2f3a;color:#fff;border-radius:14px}
-.kc-sec #kc-c-hex:focus,.kc-sec .fld input[type=text]:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,75,255,.25)}
+.kc-sec #kc-c-hex:focus,.kc-sec .fld input[type=text]:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(230,51,15,.25)}
 .kc-sec .fld input::placeholder{color:#5a6070}
 .kc-sec .fld span{color:#9aa0ad;font-size:13px}
 .kc-sec .checks{color:#c9cdd5}
@@ -212,7 +212,7 @@
 /* описание */
 .kc-sec .kc-sum{margin:20px 0 0;border-top:1px solid #232834}
 .kc-sec .kc-sum-head b{color:#fff}
-.kc-sec .kc-link{color:#7f9bff}
+.kc-sec .kc-link{color:#f28c76}
 .kc-sec .sum-i span{color:#7d8494}
 .kc-sec .sum-i code{color:#e6e8ec}
 .kc-sec .sum-i i{box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}

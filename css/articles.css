@@ -5,7 +5,7 @@
 .acard-ph{aspect-ratio:16/10;background:var(--bg2);overflow:hidden;display:grid;place-items:center}
 .acard-ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease,ease)}
 .acard:hover .acard-ph img{transform:scale(1.04)}
-.acard-noimg{font-size:64px;font-weight:900;letter-spacing:-.06em;background:linear-gradient(135deg,var(--accent),#7d97ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.acard-noimg{font-size:64px;font-weight:900;letter-spacing:-.06em;background:linear-gradient(135deg,var(--accent),#f28a74);-webkit-background-clip:text;background-clip:text;color:transparent}
 .acard-t{padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px;flex:1}
 .acard-t h2{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
 .acard-t p{color:var(--ink2);font-size:15px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -25,7 +25,7 @@
 .art-cover{margin-top:40px;border-radius:var(--radius);overflow:hidden;background:var(--bg2);aspect-ratio:21/9}
 .art-cover img{width:100%;height:100%;object-fit:cover}
 .art-body{padding:48px 0 72px!important}
-.art-body .wrap{display:grid;grid-template-columns:minmax(0,760px) minmax(260px,340px);justify-content:space-between;gap:clamp(32px,6vw,120px);align-items:start}
+.art-body .wrap{display:grid;grid-template-columns:minmax(0,760px);gap:clamp(32px,6vw,120px);align-items:start}
 .art-text{font-size:18px;line-height:1.7;color:var(--ink);overflow-wrap:anywhere}
 .art-text>*+*{margin-top:1em}
 .art-text h2{font-size:clamp(26px,2.6vw,34px);font-weight:800;letter-spacing:-.025em;line-height:1.15;margin-top:1.6em}
@@ -71,3 +71,19 @@
 
 @media(max-width:1280px) and (min-width:1001px){.acards{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1280px) and (min-width:1001px){.acards .pcard-fill{grid-column:1/-1}}
+
+/* статья — центрированная колонка */
+.art-hero .wrap,.art-body .wrap{max-width:860px;margin-left:auto;margin-right:auto}
+.art-hero{text-align:center}
+.art-hero .crumbs{justify-content:center;display:flex;flex-wrap:wrap}
+.art-hero h1{margin-left:auto;margin-right:auto;max-width:860px}
+.art-lead{margin-left:auto;margin-right:auto}
+.art-cover{aspect-ratio:16/9;width:min(1200px,calc(100vw - 32px));max-width:none;position:relative;left:50%;transform:translateX(-50%);margin-left:auto;margin-right:auto}
+.art-body .wrap{display:block}
+.art-text{max-width:760px;margin:0 auto}
+/* колонка = ширина фото */
+.art-hero .wrap,.art-body .wrap{max-width:calc(1200px + 2 * clamp(20px,4vw,80px))}
+.art-cover{width:100%;left:auto;transform:none}
+.art-text{max-width:none;font-size:clamp(19px,1.5vw,22px);line-height:1.7}
+.art-lead{max-width:none;font-size:clamp(20px,1.8vw,24px)}
+.art-hero h1{max-width:none}

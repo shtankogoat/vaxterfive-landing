@@ -8,7 +8,7 @@
 <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}?v=26">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}?v=28">
 <script src="{{ url_for('static', filename='admin.js') }}?v=11" defer></script>
 </head>
 <body>
@@ -20,6 +20,7 @@
     <nav class="nav">
       <a href="{{ url_for('home') }}" class="{{ 'on' if request.endpoint in ('home','cat','item','item_new') }}">Каталог</a>
       <a href="{{ url_for('articles') }}" class="{{ 'on' if request.endpoint in ('articles','article','article_new') }}">Статьи</a>
+      <a href="{{ url_for('swatches') }}" class="{{ 'on' if request.endpoint in ('swatches','swatch','swatch_new') }}">Образцы</a>
       <a href="{{ url_for('defaults') }}" class="{{ 'on' if request.endpoint=='defaults' }}">По умолчанию</a>
       <a href="{{ url_for('versions') }}" class="{{ 'on' if request.endpoint=='versions' }}">Версии</a>
       <a href="{{ url_for('leads_page') }}" class="{{ 'on' if request.endpoint=='leads_page' }}">Заявки</a>

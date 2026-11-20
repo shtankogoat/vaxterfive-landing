@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% set ttl = form.n if i is not none else 'Новый образец' %}{% block title %}{{ ttl }}{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=3">
+<nav class="crumbs mono"><a href="{{ url_for('swatches') }}">Образцы</a><i>/</i><span>{{ ttl }}</span></nav>
+<div class="head"><div><h1>{{ ttl }}</h1></div></div>
+
+<form method="post" enctype="multipart/form-data" class="art-form" data-busy="Сохраняем…">
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <div class="art-grid">
+    <section class="card-f art-main">
+      <label>Название *<input name="n" value="{{ form.n or '' }}" required maxlength="60" placeholder="Трикотаж джерси"></label>
+      <label>Тип *<input name="t" value="{{ form.t or '' }}" required maxlength="40" list="sw-types" placeholder="Ткань"><small>Подпись под названием: {{ types|join(', ') }} или свой вариант</small></label>
+      <datalist id="sw-types">{% for t in types %}<option value="{{ t }}">{% endfor %}</datalist>
+      <label>Описание (во всплывающем окне)<textarea name="d" rows="4" maxlength="400" data-count>{{ form.d or '' }}</textarea><small>До 400 символов.</small></label>
+      <div class="formact"><button class="btn">{{ 'Сохранить' if i is not none else 'Добавить образец' }}</button><a class="btn ghost" href="{{ url_for('swatches') }}">Назад</a></div>
+    </section>
+    <aside class="art-side">
+      <section class="card-f">
+        <h2>Фото *</h2>
+        {% if form.img %}<figure class="art-cover"><img src="{{ form.img }}" alt=""></figure>{% endif %}
+        <label class="drop"><input type="file" name="photo" accept="image/jpeg,image/png,image/webp">
+          <span class="drop-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
+          <span class="drop-txt"><b class="drop-title">{{ 'Заменить фото' if form.img else 'Перетащите фото сюда или нажмите' }}</b><small>JPG, PNG, WEBP · до 15 МБ · лучше квадратное</small></span></label>
+        <div class="drop-prev" aria-live="polite"></div>
+      </section>
+      {% if i is not none %}
+      <section class="card-f">
+        <h2>Удаление</h2>
+        <button type="submit" form="sw-del" class="btn ghost danger-ghost">Удалить образец</button>
+      </section>
+      {% endif %}
+    </aside>
+  </div>
+</form>
+{% if i is not none %}<form method="post" id="sw-del" action="{{ url_for('swatch_delete', i=i) }}" data-confirm="Вы уверены? Удалить образец «{{ form.n }}»? Он исчезнет с сайта."><input type="hidden" name="csrf" value="{{ csrf_token() }}"></form>{% endif %}
+{% endblock %}

@@ -171,9 +171,6 @@ def build(B):
   {cover}
 </div></section>
 <section class="art-body"><div class="wrap"><div class="art-text">{body_html}</div>
-  <aside class="art-cta"><span class="mono">Индивидуальный пошив</span><b>Нужна форма для команды?</b>
-    <p>Сошьём по вашему эскизу или образцу — от одной штуки. Подберём ткань, крой и нанесение.</p>
-    <div class="art-cta-btns"><a class="btn" href="#contact">Получить расчёт</a><a class="btn ghost" href="/catalog/">Каталог</a></div></aside>
 </div></section>
 </article>
 {more}"""

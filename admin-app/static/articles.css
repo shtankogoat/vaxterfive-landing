@@ -22,11 +22,11 @@ label.chk{flex-direction:row;align-items:center;gap:10px;cursor:pointer}
 .seg-o span{display:block;text-align:center;padding:9px 8px;border-radius:10px;font-size:14px;font-weight:700;color:var(--ink2);transition:.15s}
 .seg-o input:checked+span{background:#fff;color:var(--ink);box-shadow:0 2px 8px -3px rgba(11,13,18,.25)}
 .seg-o input[value=published]:checked+span{color:#0d7a38}
-.seg-o input:focus-visible+span{box-shadow:0 0 0 3px rgba(31,75,255,.25)}
+.seg-o input:focus-visible+span{box-shadow:0 0 0 3px rgba(230,51,15,.25)}
 
 /* редактор */
 .ed{border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-weight:400;font-size:16px;transition:border-color .15s,box-shadow .15s}
-.ed:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,75,255,.15)}
+.ed:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(230,51,15,.15)}
 .ed.busy{opacity:.7;pointer-events:none}
 .ed-bar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;border-bottom:1px solid var(--line);background:#fafbfc;border-radius:14px 14px 0 0;position:static}
 .ed-b{font:inherit;font-size:13px;font-weight:600;min-width:34px;height:34px;padding:0 10px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--ink);cursor:pointer;transition:.12s}
@@ -59,3 +59,11 @@ label.chk{flex-direction:row;align-items:center;gap:10px;cursor:pointer}
 
 @media (max-width:980px){.art-grid{grid-template-columns:1fr}}
 @media (max-width:560px){.ed-area{padding:16px;min-height:340px}.ed-b{min-width:32px;height:32px;padding:0 8px}}
+/* колонки одной высоты: левая карточка тянется до низа правой, редактор заполняет её */
+.art-grid{align-items:stretch}
+.art-side{align-content:start}
+.art-main{display:flex;flex-direction:column}
+.art-main>label:last-of-type{flex:1;display:flex;flex-direction:column}
+.art-main .ed{flex:1;display:flex;flex-direction:column}
+.art-main .ed-area{flex:1}
+@media (max-width:900px){.art-grid{align-items:start}}

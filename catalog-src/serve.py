@@ -22,4 +22,7 @@ class H(http.server.SimpleHTTPRequestHandler):
         self.send_response(code); self.send_header("Content-Type", ct or "application/json")
         self.send_header("Content-Length", str(len(data))); self.end_headers(); self.wfile.write(data)
     def log_message(self, *a): pass
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store")
+        super().end_headers()
 http.server.ThreadingHTTPServer(("127.0.0.1", 5510), functools.partial(H, directory=ROOT)).serve_forever()

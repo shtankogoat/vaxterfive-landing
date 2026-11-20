@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block title %}Образцы{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=3">
+<div class="head">
+  <div><span class="mono">Главная страница</span><h1>Образцы</h1></div>
+  <div class="head-act"><a class="btn ghost sm" href="/#swatches" target="_blank" rel="noopener">На сайте ↗</a><a class="btn sm" href="{{ url_for('swatch_new') }}">+ Новый образец</a></div>
+</div>
+<p class="hint">Лента «Образцы — нажмите, чтобы рассмотреть» на главной. Порядок здесь = порядок на сайте. Каждое изменение сразу публикуется.</p>
+<div class="list">
+  {% for i, s in items %}
+  <div class="row">
+    <a class="row-main" href="{{ url_for('swatch', i=i) }}">
+      <span class="thumb">{% if s.img %}<img src="{{ s.img }}" alt="" loading="lazy">{% else %}<em>нет фото</em>{% endif %}</span>
+      <span class="row-t"><b>{{ s.n }}</b><small class="mono">{{ s.t }}</small></span>
+    </a>
+    <div class="row-act">
+      <form method="post" action="{{ url_for('swatch_move', i=i) }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="d" value="up"><button class="ibtn" title="Выше" aria-label="Выше" {{ 'disabled' if loop.first }}>↑</button></form>
+      <form method="post" action="{{ url_for('swatch_move', i=i) }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="d" value="down"><button class="ibtn" title="Ниже" aria-label="Ниже" {{ 'disabled' if loop.last }}>↓</button></form>
+      <form method="post" action="{{ url_for('swatch_delete', i=i) }}" data-confirm="Вы уверены? Удалить образец «{{ s.n }}»? Он исчезнет с сайта."><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="ibtn danger" title="Удалить" aria-label="Удалить">✕</button></form>
+    </div>
+  </div>
+  {% else %}<p class="empty">Образцов пока нет — нажмите «+ Новый образец». Пока список пуст, лента на сайте не показывается.</p>{% endfor %}
+</div>
+{% endblock %}

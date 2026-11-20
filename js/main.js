@@ -1,12 +1,12 @@
 // marquee: duplicate items for seamless loop
-const track=document.getElementById('track');track.innerHTML+=track.innerHTML;
+const track=document.getElementById('track');{const s=track.innerHTML,n=track.children.length;let k=1;track.innerHTML=s;const w=()=>track.scrollWidth;const fill=()=>{const need=Math.max(innerWidth,screen.width||0)+200;const one=w()/(track.children.length/n)/1;let c=Math.max(1,Math.ceil(need/Math.max(1,one)));if(c!==k||track.children.length!==2*c*n){k=c;track.innerHTML=s.repeat(2*c);track.style.animationDuration=(40*c)+'s'}};fill();addEventListener('load',fill);addEventListener('resize',fill)}
 
 // swatches (данные — js/swatches.js)
 const swatches=window.SWATCHES||[];
 const box=document.getElementById('swatches'),modal=document.getElementById('modal');
 swatches.forEach(s=>{
   const b=document.createElement('button');b.className='sw';b.type='button';
-  b.innerHTML=`<div class="chip"></div><b>${s.n}</b><small>${s.t}</small>`;
+  b.innerHTML='<div class="chip"></div><b></b><small></small>';b.querySelector('b').textContent=s.n;b.querySelector('small').textContent=s.t;
   b.onclick=()=>{document.getElementById('m-chip').style.background=s.c;
     document.getElementById('m-type').textContent=s.t;document.getElementById('m-title').textContent=s.n;
     document.getElementById('m-desc').textContent=s.d;modal.classList.add('open')};

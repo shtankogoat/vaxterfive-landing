@@ -1,4 +1,4 @@
-"""Заявки с сайта: проверка, надёжное сохранение (SQLite + leads.jsonl), отправка в AmoCRM в фоне."""
+"""Заявки с сайта: проверка, надёжное сохранение (SQLite + leads.jsonl), без внешних CRM (клиент сам пишет боту)."""
 import json, logging, os, re, sqlite3, threading, time, uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -118,12 +118,11 @@ def validate(form, files):
         raise ValueError("Описание слишком длинное (до 2000 символов).")
     if not name or len(name) > 100:
         raise ValueError("Укажите имя (до 100 символов).")
-    if not contact or len(contact) > 100:
-        raise ValueError("Укажите телефон, @telegram или ссылку на ВК / MAX.")
-    pc = parse_contact(contact)
-    if not pc:
-        raise ValueError("Контакт: телефон, @ник Telegram или ссылка на ВКонтакте / MAX.")
-    contact = pc[1]
+    # контакт необязателен: клиент сам пишет боту, его аккаунт и есть контакт
+    if len(contact) > 100:
+        contact = contact[:100]
+    pc = parse_contact(contact) if contact else None
+    contact = pc[1] if pc else contact
     if form.get("consent") != "Да":
         raise ValueError("Нужно согласие на обработку персональных данных.")
     qty = None
@@ -144,7 +143,7 @@ def validate(form, files):
         raise ValueError("Некорректное значение поля «Дизайн».")
     if mat and mat not in MAT:
         raise ValueError("Некорректное значение поля «Материал».")
-    via = pc[0]  # канал определяется по контакту, выбор в форме убран
+    via = pc[0] if pc else (form.get("via") if form.get("via") in ("Telegram", "MAX", "ВКонтакте") else "Telegram")  # канал определяется по контакту, выбор в форме убран
     if via not in VIA:
         raise ValueError("Некорректный способ связи.")
     page = g("page")[:500] or None
@@ -183,7 +182,7 @@ def save(data, blob, ext, orig, ip, ua):
         fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
     _conn().execute("INSERT INTO leads VALUES (?,?,?,?,?,?,?,?,?,?)",
                     (lid, rec["ts"], ip, json.dumps({**data, "ua": ua[:200]}, ensure_ascii=False), fname, orig,
-                     "pending" if amo_configured() else "not_configured", None, None, None))
+                     "saved", None, None, None))
     return lid
 
 
@@ -199,7 +198,7 @@ def _row(r):
     return d
 
 
-KEEP = 50  # в админке храним 50 последних заявок; остальное — в AmoCRM
+KEEP = 50  # в админке храним 50 последних заявок
 
 
 def list_all(limit=KEEP):
@@ -219,92 +218,8 @@ def _set(lid, **kw):
     _conn().execute(f"UPDATE leads SET {cols} WHERE id=?", (*kw.values(), lid))
 
 
-# ---------- AmoCRM ----------
-def amo_configured():
-    return bool(os.environ.get("AMO_SUBDOMAIN") and os.environ.get("AMO_TOKEN"))
-
-
-def _amo_base():
-    return os.environ.get("AMO_BASE_URL") or f"https://{os.environ['AMO_SUBDOMAIN']}.amocrm.ru"
-
-
-def _is_phone(s):
-    return bool(PHONE_RE.match(s)) and 10 <= len(re.sub(r"\D", "", s)) <= 15
-
-
-def _tg_link(s):  # ссылка на профиль (Telegram / VK / MAX) для карточки АМО
-    pc = parse_contact(s)
-    return pc[2] if pc else None
-
-
-def note_text(lead, file_url):
-    d = lead["data"]
-    rows = [("Что сшить", d.get("what")), ("Количество", d.get("qty")), ("Срок", d.get("date")),
-            ("Дизайн", d.get("design")), ("Материал", d.get("mat")), ("Имя", d.get("name")),
-            ("Контакт", d.get("contact")), ("Профиль", _tg_link(d.get("contact"))),
-            ("Как связаться", d.get("via")), ("Конструктор", d.get("kit")),
-            ("Файл", f"{lead['file_name']} — {file_url} (нужен вход в админку)" if lead.get("file") else None),
-            ("Страница", d.get("page")), ("IP", lead.get("ip")), ("Время", lead.get("when") + " МСК")]
-    return "Заявка с сайта vaxterfive.ru\n\n" + "\n".join(f"{k}: {v}" for k, v in rows if v not in (None, ""))
-
-
-def send_to_amo(lid, file_url):
-    import requests
-    lead = get(lid)
-    if not lead:
-        return
-    if not amo_configured():
-        _set(lid, status="not_configured")
-        return
-    d = lead["data"]
-    proxy = os.environ.get("AMO_PROXY")
-    kw = dict(headers={"Authorization": f"Bearer {os.environ['AMO_TOKEN']}"}, timeout=8,
-              proxies={"http": proxy, "https": proxy} if proxy else None)
-    contact = {"first_name": d["name"]}
-    if _is_phone(d["contact"]):
-        contact["custom_fields_values"] = [{"field_code": "PHONE",
-                                            "values": [{"value": d["contact"], "enum_code": "WORK"}]}]
-    elif _tg_link(d["contact"]):
-        contact["custom_fields_values"] = [{"field_code": "IM",
-                                            "values": [{"value": _tg_link(d["contact"]), "enum_code": "OTHER"}]}]
-    if d.get("via"):
-        contact["first_name"] = f'{d["name"]} ({d["via"]})'
-    body = {"name": "Заявка с сайта: " + d["what"][:60],
-            "custom_fields_values": [{"field_id": 776497, "values": [{"value": "сайт"}]}],
-            "_embedded": {"tags": [{"name": "Сайт"}], "contacts": [contact]}}
-    if d.get("qty"):
-        body["custom_fields_values"].append({"field_id": 808751, "values": [{"value": int(d["qty"])}]})  # Изделий в заказе
-    if d.get("date"):
-        ts = int(datetime.strptime(d["date"], "%Y-%m-%d").replace(hour=12).timestamp())
-        body["custom_fields_values"].append({"field_id": 808187, "values": [{"value": ts}]})  # DeadLine
-    for env, key in (("AMO_PIPELINE_ID", "pipeline_id"), ("AMO_STATUS_ID", "status_id"),
-                     ("AMO_RESPONSIBLE_USER_ID", "responsible_user_id")):
-        if os.environ.get(env, "").isdigit():
-            body[key] = int(os.environ[env])
-    try:
-        r = requests.post(_amo_base() + "/api/v4/leads/complex", json=[body], **kw)
-        if r.status_code == 400 and contact.get("custom_fields_values", [{}])[0].get("field_code") == "IM":
-            contact.pop("custom_fields_values")  # нет поля IM в аккаунте — ссылка всё равно в примечании
-            r = requests.post(_amo_base() + "/api/v4/leads/complex", json=[body], **kw)
-        r.raise_for_status()
-        amo_id = int(r.json()[0]["id"])
-        r2 = requests.post(f"{_amo_base()}/api/v4/leads/{amo_id}/notes",
-                           json=[{"note_type": "common", "params": {"text": note_text(lead, file_url)}}], **kw)
-        r2.raise_for_status()
-        _set(lid, status="sent", amo_id=amo_id, error=None, sent_ts=time.time())
-        log.info("LEAD_AMO_OK id=%s amo=%s", lid, amo_id)
-    except Exception as e:
-        msg = f"{type(e).__name__}: {getattr(getattr(e, 'response', None), 'status_code', '')} {str(e)[:200]}"
-        _set(lid, status="error", error=msg)
-        log.warning("LEAD_AMO_FAIL id=%s %s", lid, msg)
-
-
-def send_async(lid, file_url):
-    threading.Thread(target=send_to_amo, args=(lid, file_url), daemon=True).start()
-
-
 def delete(lid):
-    """Удаляет заявку из админки: строка в БД, приложенный файл и запись в «сыром» журнале. AmoCRM не трогаем."""
+    """Удаляет заявку из админки: строка в БД, приложенный файл и запись в «сыром» журнале."""
     lead = get(lid)
     if not lead:
         return False
@@ -325,7 +240,7 @@ def delete(lid):
 
 
 def prune(keep=KEEP):
-    """Строго 50 последних заявок: пришла новая — самая старая удаляется (вся история — в AmoCRM)."""
+    """Строго 50 последних заявок: пришла новая — самая старая удаляется."""
     old = [r[0] for r in _conn().execute(
         "SELECT id FROM leads WHERE id NOT IN (SELECT id FROM leads ORDER BY ts DESC LIMIT ?)", (keep,))]
     for lid in old:

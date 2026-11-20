@@ -8,7 +8,7 @@
   var PALETTE = [
     ['Белый', '#ffffff'], ['Чёрный', '#0b0d12'], ['Тёмно-синий', '#14213d'], ['Синий', '#1f4bff'], ['Голубой', '#4cb8f5'],
     ['Бирюзовый', '#00a6a6'], ['Мятный', '#5fe0b7'], ['Зелёный', '#14a44d'], ['Тёмно-зелёный', '#0d4a2f'], ['Лайм', '#c6f432'],
-    ['Жёлтый', '#ffd60a'], ['Золото', '#c9a227'], ['Оранжевый', '#ff6b1a'], ['Красный', '#e3241b'], ['Бордовый', '#7a1426'],
+    ['Жёлтый', '#ffd60a'], ['Золото', '#c9a227'], ['Оранжевый', '#ff6b1a'], ['Красный', '#e6330f'], ['Бордовый', '#7a1426'],
     ['Розовый', '#ff4f9a'], ['Фиолетовый', '#6a35d9'], ['Серый', '#8a909c']
   ];
   // t: top | bottom | acc ; vb: viewBox ; dw: «реальная» ширина в единицах сцены
@@ -36,11 +36,11 @@
   var DEF = {
     m: 'kit', g: 'tee', k: ['tee', 'shorts', 'socks'], p: 'sash', font: 'oswald', team: 'VAXTER', name: 'ИВАНОВ', num: '10',
     fnum: 0, snum: 1, ow: 1, lx: 252, ly: 104, ls: 40,
-    c: { body: '#1f4bff', sleeve: '#1f4bff', trim: '#0b0d12', side: '#0b0d12', pat: '#ffffff', bottom: '#0b0d12', text: '#ffffff', num: '#ffffff', outl: '#0b0d12' }
+    c: { body: '#e6330f', sleeve: '#e6330f', trim: '#0b0d12', side: '#0b0d12', pat: '#ffffff', bottom: '#0b0d12', text: '#ffffff', num: '#ffffff', outl: '#0b0d12' }
   };
   function P(p, body, sleeve, trim, side, pat, bottom, text, num, outl) { return { p: p, c: { body: body, sleeve: sleeve, trim: trim, side: side, pat: pat, bottom: bottom, text: text, num: num, outl: outl } }; }
   var PRESETS = [
-    ['Шторм', P('sash', '#1f4bff', '#1f4bff', '#0b0d12', '#0b0d12', '#ffffff', '#0b0d12', '#ffffff', '#ffffff', '#0b0d12')],
+    ['Шторм', P('sash', '#e6330f', '#e6330f', '#0b0d12', '#0b0d12', '#ffffff', '#0b0d12', '#ffffff', '#ffffff', '#0b0d12')],
     ['Классика', P('stripes', '#ffffff', '#e3241b', '#e3241b', '#e3241b', '#e3241b', '#ffffff', '#0b0d12', '#0b0d12', '#ffffff')],
     ['Золото', P('pin', '#0b0d12', '#0b0d12', '#c9a227', '#c9a227', '#2a2d36', '#0b0d12', '#c9a227', '#c9a227', '#0b0d12')],
     ['Лес', P('hoops', '#0d4a2f', '#0d4a2f', '#ffffff', '#ffffff', '#14a44d', '#ffffff', '#ffffff', '#ffffff', '#0d4a2f')],
@@ -342,7 +342,7 @@
     $('#kc-presets').innerHTML = PRESETS.map(function (p, i) {
       var c = p[1].c;
       return '<button type="button" class="preset" data-pr="' + i + '"><svg viewBox="0 0 42 42"><circle cx="21" cy="21" r="20" fill="' + c.body + '" stroke="rgba(11,13,18,.12)"/><path d="M21 1a20 20 0 0 1 0 40z" fill="' + c.pat + '"/><circle cx="21" cy="21" r="8" fill="' + c.bottom + '" stroke="#fff" stroke-width="2"/></svg>' + p[0] + '</button>';
-    }).join('') + '<button type="button" class="preset" data-pr="rnd"><svg viewBox="0 0 42 42"><rect x="6" y="6" width="30" height="30" rx="8" fill="#0b0d12"/><circle cx="15" cy="15" r="3" fill="#fff"/><circle cx="27" cy="27" r="3" fill="#fff"/><circle cx="21" cy="21" r="3" fill="#fff"/><circle cx="27" cy="15" r="3" fill="#1f4bff"/><circle cx="15" cy="27" r="3" fill="#1f4bff"/></svg>Случайно</button>';
+    }).join('') + '<button type="button" class="preset" data-pr="rnd"><svg viewBox="0 0 42 42"><rect x="6" y="6" width="30" height="30" rx="8" fill="#0b0d12"/><circle cx="15" cy="15" r="3" fill="#fff"/><circle cx="27" cy="27" r="3" fill="#fff"/><circle cx="21" cy="21" r="3" fill="#fff"/><circle cx="27" cy="15" r="3" fill="#e6330f"/><circle cx="15" cy="27" r="3" fill="#e6330f"/></svg>Случайно</button>';
   }
 
   function summaryRows() {
@@ -447,7 +447,7 @@
       x.fillText('КОНСТРУКТОР ФОРМЫ · VAXTERFIVE.RU', W - 70, 92); x.fillText(new Date().toLocaleDateString('ru-RU'), W - 70, 134);
       x.textAlign = 'left'; x.fillStyle = '#0b0d12'; x.font = '900 64px "Inter Tight", sans-serif';
       x.fillText(((S.team ? S.team + ' · ' : '') + (S.m === 'kit' ? 'комплект' : ITEMS[S.g].n)).toUpperCase(), 110, 280);
-      x.fillStyle = '#1f4bff'; x.font = '600 28px "Inter Tight", sans-serif';
+      x.fillStyle = '#e6330f'; x.font = '600 28px "Inter Tight", sans-serif';
       x.fillText(items().map(function (i) { return ITEMS[i].n; }).join(' · ') + (S.num ? '  ·  №' + S.num : '') + (S.name && has('top') ? ' ' + S.name.toUpperCase() : ''), 112, 330);
       x.drawImage(imgs[0], (W - sw) / 2, 390, sw, sh);
       var cy = 180 + sh + 280 + 50, colW = (W - 140) / 6;

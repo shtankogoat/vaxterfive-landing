@@ -12,3 +12,7 @@ after/
 __pycache__/
 img/_originals-perf-*/
 catalog-src/catalog.backup-*.json
+_archive/
+articles-src/
+_yadisk_dl/
+after/

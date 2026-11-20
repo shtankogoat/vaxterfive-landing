@@ -25,6 +25,14 @@ except ImportError:  # без минификаторов просто копир
 def rd(rel): return (ROOT / rel).read_text(encoding="utf-8")
 
 
+# --- образцы (лента «Образцы» на главной) редактируются в админке → js/swatches.js ---
+if "swatches" in data:
+    _sw = [{"t": s.get("t", ""), "n": s.get("n", ""), "d": s.get("d", ""),
+            "c": f"url({s['img']}) center/cover no-repeat" if s.get("img") else "#e6e8ec"} for s in data["swatches"]]
+    (ROOT / "js/swatches.js").write_text("// Генерируется catalog-src/build.py из catalog.json (раздел «Образцы» в админке) — не править вручную\nwindow.SWATCHES = "
+                                         + json.dumps(_sw, ensure_ascii=False).replace("</", "<\\/") + ";\n", encoding="utf-8")
+
+
 # --- минифицированные бандлы с хэшем в ?v= (исходники остаются для правки) ---
 BUNDLES = {
     "css/style.min.css": (min_css, ["css/style.css"]),
