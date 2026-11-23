@@ -25,9 +25,9 @@
   <div class="dlg-head"><h2 id="cs-t">Настройки категории</h2><button type="button" class="ibtn" data-close-dlg aria-label="Закрыть">✕</button></div>
   <form method="post" class="grid2">
     <input type="hidden" name="csrf" value="{{ csrf_token() }}">
-    <label>Название<input name="name" value="{{ c.name }}" required maxlength="120"></label>
+    <label>Название<input name="name" value="{{ c.name }}" required maxlength="120" placeholder="Например: Футбольная форма"></label>
     <label>Адрес (slug)<input name="slug" value="{{ c.slug }}" required maxlength="60" pattern="[a-z0-9]+(-[a-z0-9]+)*"><small>Смена адреса меняет ссылки на страницы раздела.</small></label>
-    <label class="full">Описание раздела<textarea name="lead_text" rows="3" maxlength="500">{{ c.lead_text }}</textarea></label>
+    <label class="full">Описание раздела<textarea name="lead_text" rows="3" maxlength="500" placeholder="Коротко опишите, какие товары входят в раздел…">{{ c.lead_text }}</textarea></label>
     <div class="full dlg-act"><button type="button" class="btn ghost" data-close-dlg>Отмена</button><button class="btn">Сохранить</button></div>
   </form>
 </dialog>

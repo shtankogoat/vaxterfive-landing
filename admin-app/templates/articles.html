@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% block title %}Статьи{% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=3">
+<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=10">
 <div class="head">
   <div><span class="mono">Блог</span><h1>Статьи</h1></div>
   <div class="head-act"><a class="btn ghost sm" href="/articles/" target="_blank" rel="noopener">Статьи на сайте ↗</a><a class="btn sm" href="{{ url_for('article_new') }}">+ Новая статья</a></div>

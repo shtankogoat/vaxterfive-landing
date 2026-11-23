@@ -82,34 +82,139 @@
     });
   }
 
-  // ---------- зона загрузки: drag&drop + превью ----------
+  // ---------- выбор области фото (4:5, как карточка на сайте) ----------
+  var RATIO = 4 / 5;
+  function defCrop(W, H) {
+    var w = W, h = w / RATIO;
+    if (h > H) { h = H; w = h * RATIO; }
+    return { x: (W - w) / 2 / W, y: (H - h) / 2 / H, w: w / W, h: h / H };
+  }
+  function cropper(src, start, done) {
+    var ov = document.createElement("div");
+    ov.className = "crop-ov";
+    ov.innerHTML = '<div class="crop-box"><div class="crop-head"><b>Выберите область</b><small>Перетащите рамку, угол — размер. Формат 4:5, как в карточке товара.</small></div>' +
+      '<div class="crop-stage"><img alt=""><div class="crop-fr"><i class="crop-h"></i></div></div>' +
+      '<div class="crop-act"><button type="button" class="btn ghost" data-a="full">Всё фото</button><span></span><button type="button" class="btn ghost" data-a="no">Отмена</button><button type="button" class="btn" data-a="ok">Готово</button></div></div>';
+    document.body.appendChild(ov);
+    var img = ov.querySelector("img"), fr = ov.querySelector(".crop-fr"), c;
+    function W() { return img.clientWidth; } function H() { return img.clientHeight; }
+    function draw() {
+      fr.style.left = c.x * W() + "px"; fr.style.top = c.y * H() + "px";
+      fr.style.width = c.w * W() + "px"; fr.style.height = c.h * H() + "px";
+    }
+    img.onload = function () {
+      c = start ? { x: start.x, y: start.y, w: start.w, h: start.h } : defCrop(img.naturalWidth, img.naturalHeight);
+      draw();
+    };
+    img.src = src;
+    var drag = null;
+    fr.addEventListener("pointerdown", function (e) {
+      e.preventDefault(); fr.setPointerCapture(e.pointerId);
+      drag = { mode: e.target.classList.contains("crop-h") ? "size" : "move", sx: e.clientX, sy: e.clientY, c: { x: c.x, y: c.y, w: c.w, h: c.h } };
+    });
+    fr.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var dx = (e.clientX - drag.sx) / W(), dy = (e.clientY - drag.sy) / H(), o = drag.c;
+      var asp = img.naturalWidth / img.naturalHeight; // доля ширины ↔ доля высоты при 4:5
+      if (drag.mode === "move") {
+        c.x = Math.min(Math.max(0, o.x + dx), 1 - o.w);
+        c.y = Math.min(Math.max(0, o.y + dy), 1 - o.h);
+      } else {
+        var w = Math.max(0.08, o.w + Math.max(dx, dy * RATIO / asp));
+        w = Math.min(w, 1 - o.x, (1 - o.y) * RATIO / asp);
+        c.w = w; c.h = w * asp / RATIO;
+      }
+      draw();
+    });
+    ["pointerup", "pointercancel"].forEach(function (ev) { fr.addEventListener(ev, function () { drag = null; }); });
+    window.addEventListener("resize", function () { if (c) draw(); });
+    function close() { ov.remove(); document.removeEventListener("keydown", key); }
+    function key(e) { if (e.key === "Escape") close(); }
+    document.addEventListener("keydown", key);
+    ov.addEventListener("click", function (e) {
+      var a = e.target.getAttribute && e.target.getAttribute("data-a");
+      if (e.target === ov || a === "no") close();
+      else if (a === "full") { close(); done(null); }
+      else if (a === "ok") { close(); done(c); }
+    });
+  }
+  function cropStr(c) { return c ? [c.x, c.y, c.w, c.h].map(function (v) { return v.toFixed(4); }).join(",") : ""; }
+
+  // уже загруженные фото: ✂ → выбрать область → сохранить
+  document.querySelectorAll("[data-crop-btn]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var f = btn.form, inp = f.querySelector("[data-crop-src]");
+      cropper(inp.getAttribute("data-crop-src"), null, function (c) {
+        if (!c) return;
+        inp.value = cropStr(c);
+        document.body.classList.add("busy");
+        f.submit();
+      });
+    });
+  });
+
+  // ---------- зона загрузки: drag&drop + превью + область ----------
   document.querySelectorAll(".drop").forEach(function (drop) {
     var inp = drop.querySelector("input[type=file]");
-    var prev = drop.parentNode.querySelector(".drop-prev");
+    var box = drop.parentNode;
+    var prev = box.querySelector(".drop-prev");
     var title = drop.querySelector(".drop-title");
+    var formId = inp.getAttribute("form");
     var OK = /^image\/(jpeg|png|webp)$/;
-    function render() {
+    var crops = [];
+    function sync() {
+      box.querySelectorAll("input[name=crop]").forEach(function (x) { x.remove(); });
+      Array.prototype.forEach.call(inp.files, function (f, i) {
+        var h = document.createElement("input");
+        h.type = "hidden"; h.name = "crop"; h.value = cropStr(crops[i]);
+        if (formId) h.setAttribute("form", formId);
+        box.appendChild(h);
+      });
+    }
+    function thumb(fig, url, c) {
+      var im = new Image();
+      im.onload = function () {
+        var k = c || defCrop(im.naturalWidth, im.naturalHeight);
+        var cv = document.createElement("canvas"); cv.width = 160; cv.height = 200;
+        cv.getContext("2d").drawImage(im, k.x * im.naturalWidth, k.y * im.naturalHeight, k.w * im.naturalWidth, k.h * im.naturalHeight, 0, 0, 160, 200);
+        var old = fig.querySelector("canvas"); if (old) old.remove();
+        fig.insertBefore(cv, fig.firstChild);
+      };
+      im.src = url;
+    }
+    function render(reset) {
+      if (reset) crops = [];
       if (!prev) return;
       prev.innerHTML = "";
-      Array.prototype.forEach.call(inp.files, function (f) {
+      Array.prototype.forEach.call(inp.files, function (f, i) {
         var fig = document.createElement("figure");
         if (OK.test(f.type)) {
-          var img = document.createElement("img");
-          img.alt = "";
-          img.src = URL.createObjectURL(f);
-          img.onload = function () { URL.revokeObjectURL(img.src); };
-          fig.appendChild(img);
+          var url = URL.createObjectURL(f);
+          if (!crops[i]) { // по умолчанию — центр 4:5, чтобы на сайте было как в превью
+            var probe = new Image();
+            probe.onload = function () { if (!crops[i]) { crops[i] = defCrop(probe.naturalWidth, probe.naturalHeight); sync(); } };
+            probe.src = url;
+          }
+          thumb(fig, url, crops[i]);
+          fig.className = "can-crop"; fig.title = "Выбрать область";
+          fig.tabIndex = 0;
+          fig.addEventListener("click", function () {
+            cropper(url, crops[i], function (c) {
+              crops[i] = c; sync(); thumb(fig, url, c);
+            });
+          });
         } else { fig.className = "bad"; fig.textContent = "?"; }
         var cap = document.createElement("figcaption");
-        cap.textContent = f.size >= 1048576 ? (f.size / 1048576).toFixed(1) + " МБ" : Math.max(1, Math.round(f.size / 1024)) + " КБ";
+        cap.textContent = "✂ " + (f.size >= 1048576 ? (f.size / 1048576).toFixed(1) + " МБ" : Math.max(1, Math.round(f.size / 1024)) + " КБ");
         fig.appendChild(cap);
         prev.appendChild(fig);
       });
+      sync();
       var n = inp.files.length;
       title.textContent = n ? "Выбрано файлов: " + n : "Перетащите фото сюда или нажмите";
       drop.classList.toggle("has", n > 0);
     }
-    inp.addEventListener("change", render);
+    inp.addEventListener("change", function () { render(true); });
     ["dragenter", "dragover"].forEach(function (ev) {
       drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("over"); });
     });
@@ -120,7 +225,7 @@
       var dt = new DataTransfer();
       Array.prototype.forEach.call(e.dataTransfer.files, function (f) { if (OK.test(f.type)) dt.items.add(f); });
       inp.files = dt.files;
-      render();
+      render(true);
     });
   });
 

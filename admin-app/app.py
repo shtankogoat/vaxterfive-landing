@@ -480,11 +480,19 @@ def item_new(slug):
             return render_template("item.html", c=c, it=None, form=request.form, data=data)
         it = {}
         apply_item(it, islug, vals)
+        added, errs = take_uploads(MAX_PHOTOS)
+        for e in errs:
+            flash(e, "error")
+        if added:
+            it["img"] = added
         target["items"].append(it)
-        save_and_publish(data)
-        log("Создан товар", f"{target['slug']}/{islug} «{vals['name']}»")
-        flash("Товар создан. Теперь загрузите фотографии.", "ok")
-        return redirect(url_for("item", slug=target["slug"], islug=islug) + "#photos")
+        pub = save_and_publish(data)
+        log("Создан товар", f"{target['slug']}/{islug} «{vals['name']}»" + (f", фото: {len(added)}" if added else ""))
+        if pub:
+            flash("Товар создан и опубликован на сайте.", "ok")
+        else:
+            flash("Товар создан.", "ok")
+        return redirect(url_for("item", slug=target["slug"], islug=islug) + ("" if added else "#photos"))
     return render_template("item.html", c=c, it=None, form={}, data=data)
 
 
@@ -538,7 +546,39 @@ def item_delete(slug, islug):
 
 
 # ---------- фото ----------
-def process_image(fs):
+def parse_crop(v):
+    """«x,y,w,h» в долях 0..1 → кортеж или None."""
+    try:
+        x, y, w, h = (float(t) for t in (v or "").split(","))
+    except ValueError:
+        return None
+    if not (0 <= x < 1 and 0 <= y < 1 and 0.02 < w <= 1.0001 and 0.02 < h <= 1.0001):
+        return None
+    return x, y, min(w, 1 - x), min(h, 1 - y)
+
+
+def crop_im(im, crop):
+    if not crop:
+        return im
+    x, y, w, h = crop
+    W, H = im.size
+    box = (round(x * W), round(y * H), round((x + w) * W), round((y + h) * H))
+    return im.crop(box) if box[2] - box[0] > 10 and box[3] - box[1] > 10 else im
+
+
+def save_jpeg(im):
+    im.thumbnail((2000, 2000), Image.LANCZOS)
+    name = f"u-{secrets.token_hex(8)}.jpg"
+    out = io.BytesIO()
+    im.save(out, "JPEG", quality=85, optimize=True, progressive=True)  # без EXIF/GPS
+    dest = (S.IMG_DIR / name).resolve()
+    if dest.parent != S.IMG_DIR.resolve():
+        raise ValueError("path")
+    S.atomic_write(dest, out.getvalue())
+    return name
+
+
+def process_image(fs, crop=None):
     """Проверка и пере-кодирование: имени и метаданным пользователя не доверяем."""
     ext = Path(fs.filename or "").suffix.lower()
     if ext not in (".jpg", ".jpeg", ".png", ".webp"):
@@ -564,15 +604,25 @@ def process_image(fs):
         im = bg
     else:
         im = im.convert("RGB")
-    im.thumbnail((2000, 2000), Image.LANCZOS)
-    name = f"u-{secrets.token_hex(8)}.jpg"
-    out = io.BytesIO()
-    im.save(out, "JPEG", quality=85, optimize=True, progressive=True)  # без EXIF/GPS
-    dest = (S.IMG_DIR / name).resolve()
-    if dest.parent != S.IMG_DIR.resolve():
-        raise ValueError("path")
-    S.atomic_write(dest, out.getvalue())
-    return name
+    return save_jpeg(crop_im(im, crop))
+
+
+def take_uploads(room):
+    """Файлы из формы (поле photos) + области (поле crop, в том же порядке). → (имена, ошибки)"""
+    files = request.files.getlist("photos")
+    crops = request.form.getlist("crop")
+    added, errs = [], []
+    for n, f in enumerate(files):
+        if not (f and f.filename):
+            continue
+        if len(added) >= room:
+            errs.append(f"Максимум {MAX_PHOTOS} фото на товар — лишние файлы пропущены.")
+            break
+        try:
+            added.append(process_image(f, parse_crop(crops[n] if n < len(crops) else "")))
+        except ValueError as e:
+            errs.append(str(e))
+    return added, errs
 
 
 MAX_PHOTOS = 9
@@ -594,12 +644,9 @@ def photo_upload(slug, islug):
     if len(files) > room:
         flash(f"Максимум {MAX_PHOTOS} фото на товар: сейчас {have}, можно добавить ещё {room}.", "error")
         return redirect(url_for("item", slug=slug, islug=islug) + "#photos")
-    added = []
-    for f in files:
-        try:
-            added.append(process_image(f))
-        except ValueError as e:
-            flash(str(e), "error")
+    added, errs = take_uploads(room)
+    for e in errs:
+        flash(e, "error")
     if added:
         with S.LOCK:
             data = S.load_draft()
@@ -630,12 +677,20 @@ def photo_action(slug, islug):
         move(imgs, i, 1)
     elif act == "cover":
         imgs.insert(0, imgs.pop(i))
+    elif act == "crop":
+        crop = parse_crop(request.form.get("crop"))
+        src = (S.IMG_DIR / name).resolve()
+        if not crop or src.parent != S.IMG_DIR.resolve() or not src.is_file():
+            abort(400)
+        with Image.open(src) as im:
+            im = ImageOps.exif_transpose(im).convert("RGB")
+            imgs[i] = save_jpeg(crop_im(im, crop))  # старый файл остаётся — для восстановления версий
     elif act == "delete":
         imgs.pop(i)  # файл не удаляем: он может понадобиться при восстановлении старой версии
     else:
         abort(400)
     save_and_publish(data)
-    log({"up": "Фото выше", "down": "Фото ниже", "cover": "Обложка", "delete": "Удалено фото"}[act],
+    log({"up": "Фото выше", "down": "Фото ниже", "cover": "Обложка", "crop": "Область фото", "delete": "Удалено фото"}[act],
         f"{slug}/{islug}: {name}")
     return redirect(url_for("item", slug=slug, islug=islug) + "#photos")
 
@@ -671,10 +726,16 @@ def save_and_publish(data):
     S.save_draft(data)
     ok, errs, out = S.publish_draft(g.user["name"])
     log("Публикация" if ok else "Публикация не удалась", "; ".join(errs)[:500] or out[-200:])
-    if not ok:
-        for e in errs:
-            flash("Сохранено, но не опубликовано: " + e, "error")
+    if not ok:  # предупреждения показываем ПОСЛЕ сообщения об успехе (см. flush_pub_warn)
+        g.pub_warn = errs
     return ok
+
+
+@app.after_request
+def flush_pub_warn(resp):
+    for e in g.pop("pub_warn", None) or []:
+        flash("Пока не на сайте: " + e, "warn")
+    return resp
 
 
 @app.post(P + "/publish")
@@ -806,7 +867,9 @@ def sessions_page():
         r["created_s"] = time.strftime("%d.%m.%Y %H:%M", time.localtime(r["created"]))
         r["last_s"] = time.strftime("%d.%m.%Y %H:%M", time.localtime(r["last"]))
         r["me"] = r["sid"] == g.sid
-        r["can"] = bool(me) and r["created"] > me["created"]
+        age = time.time() - r["created"]
+        r["can"] = bool(me) and not r["me"] and age >= SS.REVOCABLE_AFTER
+        r["wait_min"] = max(1, int((SS.REVOCABLE_AFTER - age + 59) // 60)) if not r["me"] and not r["can"] else 0
     return render_template("sessions.html", rows=rows)
 
 
@@ -814,14 +877,14 @@ def sessions_page():
 @login_required
 def sessions_revoke():
     target = request.form.get("sid", "")
-    if target == "newer":
-        me = SS.get(g.sid)
+    if target == "older-than-3h":
         n = 0
         for r in SS.list_for(g.user["name"]):
-            if me and r["created"] > me["created"]:
-                SS.remove(r["sid"]); n += 1
-        log("Завершены сессии", f"новее текущей: {n}")
-        flash(f"Завершено сессий: {n}." if n else "Более новых сессий нет.", "info")
+            if r["sid"] != g.sid and time.time() - r["created"] >= SS.REVOCABLE_AFTER:
+                if SS.revoke(g.sid, r["sid"]) is None:
+                    n += 1
+        log("Завершены сессии", f"старше 3 часов: {n}")
+        flash(f"Завершено сессий: {n}." if n else "Нет других сессий старше 3 часов.", "info")
     else:
         err = SS.revoke(g.sid, target)
         if err:
@@ -949,6 +1012,10 @@ def server_err(e):
 
 # ---------- только для локальной разработки: раздаём сайт, чтобы работали превью ----------
 if DEV:
+    @app.get("/favicon.ico")
+    def dev_favicon():
+        return send_from_directory(S.SITE_ROOT, "favicon.ico")
+
     @app.get("/img/<path:p>")
     def dev_img(p):
         return send_from_directory(S.SITE_ROOT / "img", p)

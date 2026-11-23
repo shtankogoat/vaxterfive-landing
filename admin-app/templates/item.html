@@ -10,14 +10,14 @@
 </div>
 
 <div class="item-grid">
-<form method="post" class="card-f item-form">
+<form method="post" class="card-f item-form" id="itemf" enctype="multipart/form-data"{% if not it %} data-busy="Создаём…"{% endif %}>
   <input type="hidden" name="csrf" value="{{ csrf_token() }}">
-  <label>Название *<input name="name" value="{{ form.name or '' }}" required maxlength="120" {{ 'data-slug-src' if not it }}></label>
+  <label>Название *<input name="name" value="{{ form.name or '' }}" required maxlength="120" placeholder="Например: Футбольная форма V5" {{ 'data-slug-src' if not it }}></label>
   <div class="grid2">
     <label>Адрес (slug) *<input name="slug" value="{{ form.slug or '' }}" required maxlength="60" pattern="[a-z0-9]+(-[a-z0-9]+)*" data-slug placeholder="naprimer-tak"><small>/catalog/{{ c.slug }}/<i>slug</i>/</small></label>
     <label>Категория<select name="category">{% for x in data.categories %}<option value="{{ x.slug }}" {{ 'selected' if x.slug == c.slug }}>{{ x.name }}</option>{% endfor %}</select></label>
   </div>
-  <label>Краткое описание *<textarea name="short" rows="3" required maxlength="400">{{ form.short or '' }}</textarea></label>
+  <label>Краткое описание *<textarea name="short" rows="3" required maxlength="400" placeholder="Опишите назначение и главные особенности товара…">{{ form.short or '' }}</textarea></label>
   <p class="hint">Пустые поля ниже берутся из «<a href="{{ url_for('defaults') }}">По умолчанию</a>» — серым показано текущее значение.</p>
   <div class="grid2">
     {% for k in ['fabric','print','sizes','min','lead'] %}
@@ -29,21 +29,41 @@
 
 <section class="card-f item-photos" id="photos">
   <h2>Фотографии</h2>
-  {% if not it %}<p class="hint">Сначала создайте товар — после этого можно будет загрузить фото.</p>
+  {% if not it %}
+  <div class="photo-empty" aria-label="Предпросмотр галереи товара">
+    <div class="photo-empty-art" aria-hidden="true"><span class="photo-frame photo-frame-back"></span><span class="photo-frame photo-frame-front"><i></i><b></b></span></div>
+    <b>Здесь появится галерея товара</b>
+    <span>Добавьте фотографии — они будут показаны в карточке товара и на его странице.</span>
+    <small>Формат 4:5 · до {{ MAX_PHOTOS }} фото</small>
+  </div>
+  <div class="upload" data-form="itemf">
+    <label class="drop"><input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple form="itemf">
+      <span class="drop-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
+      <span class="drop-txt"><b class="drop-title">Перетащите фото сюда или нажмите</b><small>JPG, PNG, WEBP · до 15 МБ · максимум {{ MAX_PHOTOS }} фото</small></span></label>
+    <div class="drop-prev" aria-live="polite"></div>
+    <p class="hint">Нажмите на фото, чтобы выбрать область (4:5 — как в карточке на сайте). Фото загрузятся вместе с товаром.</p>
+  </div>
   {% else %}
-  <div class="photos">
+  <div class="photos {{ 'photos-empty' if not it.img }}">
     {% for im in it.img %}
     <figure class="ph-it {{ 'cover' if loop.first }}">
       <img src="/img/products/{{ im }}" alt="">
       {% if loop.first %}<span class="badge">Обложка</span>{% endif %}
       {% set pi = loop.index0 %}
       <figcaption>
-        {% for act, sym, ttl, dis in [('up','←','Левее',loop.first),('down','→','Правее',loop.last),('cover','★','Сделать обложкой',loop.first),('delete','✕','Удалить фото',false)] %}
-        <form method="post" action="{{ url_for('photo_action', slug=c.slug, islug=it.slug) }}" {% if act=='delete' %}data-confirm="Удалить это фото из товара?"{% endif %}><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="i" value="{{ pi }}"><input type="hidden" name="act" value="{{ act }}"><button class="ibtn {{ 'danger' if act=='delete' }}" title="{{ ttl }}" aria-label="{{ ttl }}" {{ 'disabled' if dis }}>{{ sym }}</button></form>
+        {% for act, sym, ttl, dis in [('up','←','Левее',loop.first),('down','→','Правее',loop.last),('cover','★','Сделать обложкой',loop.first),('crop','✂','Выбрать область',false),('delete','✕','Удалить фото',false)] %}
+        <form method="post" action="{{ url_for('photo_action', slug=c.slug, islug=it.slug) }}" {% if act=='delete' %}data-confirm="Удалить это фото из товара?"{% endif %}><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="i" value="{{ pi }}"><input type="hidden" name="act" value="{{ act }}">{% if act=='crop' %}<input type="hidden" name="crop" data-crop-src="/img/products/{{ im }}">{% endif %}<button class="ibtn {{ 'danger' if act=='delete' }}" {% if act=='crop' %}type="button" data-crop-btn{% endif %} title="{{ ttl }}" aria-label="{{ ttl }}" {{ 'disabled' if dis }}>{{ sym }}</button></form>
         {% endfor %}
       </figcaption>
     </figure>
-    {% else %}<p class="empty">Фото нет — без фото товар не опубликовать.</p>{% endfor %}
+    {% else %}
+    <div class="photo-empty" aria-label="Предпросмотр галереи товара">
+      <div class="photo-empty-art" aria-hidden="true"><span class="photo-frame photo-frame-back"></span><span class="photo-frame photo-frame-front"><i></i><b></b></span></div>
+      <b>Здесь появится галерея товара</b>
+      <span>Добавьте фотографии — они будут показаны в карточке товара и на его странице.</span>
+      <small>Формат 4:5 · до {{ MAX_PHOTOS }} фото</small>
+    </div>
+    {% endfor %}
   </div>
   {% if it.img|length < MAX_PHOTOS %}<form method="post" action="{{ url_for('photo_upload', slug=c.slug, islug=it.slug) }}" enctype="multipart/form-data" class="upload" data-busy="Загружаем…">
     <input type="hidden" name="csrf" value="{{ csrf_token() }}">
@@ -51,6 +71,7 @@
       <span class="drop-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
       <span class="drop-txt"><b class="drop-title">Перетащите фото сюда или нажмите</b><small>JPG, PNG, WEBP · до 15 МБ · максимум {{ MAX_PHOTOS }} фото (сейчас {{ it.img|length }})</small></span></label>
     <div class="drop-prev" aria-live="polite"></div>
+    <p class="hint">Нажмите на фото, чтобы выбрать область (4:5 — как в карточке на сайте).</p>
     <button class="btn">Загрузить</button>
   </form>{% else %}<p class="hint ph-max">Загружено максимум — {{ MAX_PHOTOS }} фото. Чтобы добавить новое, удалите одно из текущих.</p>{% endif %}
   {% endif %}

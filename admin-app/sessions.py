@@ -1,11 +1,10 @@
-"""Серверный реестр сессий админки: список активных входов + отзыв.
-Правило: сессию можно отозвать только из более старой (раньше созданной) сессии —
-новая сессия (например, украденный пароль) не может выкинуть владельца."""
+"""Серверный реестр сессий админки: список активных входов + отзыв."""
 import os, secrets, sqlite3, time
 from pathlib import Path
 
 _DB = Path(os.environ.get("ADMIN_DATA", Path(__file__).parent / "data")) / "sessions.sqlite3"
 TOUCH_EVERY = 60  # обновляем «последняя активность» не чаще раза в минуту
+REVOCABLE_AFTER = 3 * 60 * 60  # другие сессии становятся отзываемыми через 3 часа
 
 
 def _c():
@@ -63,7 +62,7 @@ def revoke(by_sid, target_sid):
         return "Сессия не найдена."
     if t["sid"] == me["sid"]:
         return "Текущую сессию завершайте кнопкой «Выйти»."
-    if t["created"] <= me["created"]:
-        return "Более старую сессию нельзя завершить из новой."
+    if time.time() - t["created"] < REVOCABLE_AFTER:
+        return "Сессию можно завершить через 3 часа после входа."
     remove(target_sid)
     return None

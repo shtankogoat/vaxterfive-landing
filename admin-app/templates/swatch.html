@@ -1,17 +1,17 @@
 {% extends "base.html" %}{% set ttl = form.n if i is not none else 'Новый образец' %}{% block title %}{{ ttl }}{% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=3">
+<link rel="stylesheet" href="{{ url_for('static', filename='articles.css') }}?v=10">
 <nav class="crumbs mono"><a href="{{ url_for('swatches') }}">Образцы</a><i>/</i><span>{{ ttl }}</span></nav>
-<div class="head"><div><h1>{{ ttl }}</h1></div></div>
+<div class="head"><div><h1>{{ ttl }}</h1></div>{% if i is not none %}<button type="submit" form="sw-del" class="btn danger sm">Удалить образец</button>{% endif %}</div>
 
-<form method="post" enctype="multipart/form-data" class="art-form" data-busy="Сохраняем…">
+<form method="post" enctype="multipart/form-data" class="art-form swatch-form" data-busy="Сохраняем…">
   <input type="hidden" name="csrf" value="{{ csrf_token() }}">
   <div class="art-grid">
-    <section class="card-f art-main">
+    <section class="card-f art-main swatch-main">
       <label>Название *<input name="n" value="{{ form.n or '' }}" required maxlength="60" placeholder="Трикотаж джерси"></label>
       <label>Тип *<input name="t" value="{{ form.t or '' }}" required maxlength="40" list="sw-types" placeholder="Ткань"><small>Подпись под названием: {{ types|join(', ') }} или свой вариант</small></label>
       <datalist id="sw-types">{% for t in types %}<option value="{{ t }}">{% endfor %}</datalist>
-      <label>Описание (во всплывающем окне)<textarea name="d" rows="4" maxlength="400" data-count>{{ form.d or '' }}</textarea><small>До 400 символов.</small></label>
+      <label>Описание (во всплывающем окне)<textarea name="d" rows="4" maxlength="400" data-count placeholder="Опишите состав, свойства и применение образца…">{{ form.d or '' }}</textarea><small>До 400 символов.</small></label>
       <div class="formact"><button class="btn">{{ 'Сохранить' if i is not none else 'Добавить образец' }}</button><a class="btn ghost" href="{{ url_for('swatches') }}">Назад</a></div>
     </section>
     <aside class="art-side">
@@ -23,12 +23,15 @@
           <span class="drop-txt"><b class="drop-title">{{ 'Заменить фото' if form.img else 'Перетащите фото сюда или нажмите' }}</b><small>JPG, PNG, WEBP · до 15 МБ · лучше квадратное</small></span></label>
         <div class="drop-prev" aria-live="polite"></div>
       </section>
-      {% if i is not none %}
-      <section class="card-f">
-        <h2>Удаление</h2>
-        <button type="submit" form="sw-del" class="btn ghost danger-ghost">Удалить образец</button>
+      <section class="card-f swatch-photo-guide">
+        <h2>Хорошее фото образца</h2>
+        <ul class="photo-tips">
+          <li><b>Покажите фактуру</b><span>Снимите ткань крупно и в фокусе.</span></li>
+          <li><b>Выберите ровный свет</b><span>Мягкое освещение точнее передаст цвет.</span></li>
+          <li><b>Оставьте только образец</b><span>Уберите лишние предметы и пёстрый фон.</span></li>
+        </ul>
+        <p class="hint">В ленте сайта фото будет обрезано до квадрата.</p>
       </section>
-      {% endif %}
     </aside>
   </div>
 </form>
